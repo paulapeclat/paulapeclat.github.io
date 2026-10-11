@@ -1,0 +1,14 @@
+{
+  "_como_usar": "Cada projeto é um item em 'projetos'. Use só o primeiro nome da criança e peça autorização da família antes de publicar. 'imagem' é um arquivo em assets/projetos/ (print do jogo, nunca foto do rosto). 'link' é onde jogar (Roblox, GDevelop, microStudio, itch.io) e pode ficar vazio.",
+  "_exemplo": {
+    "titulo": "Nome do jogo",
+    "ferramenta": "Roblox Studio",
+    "autor": "Primeiro nome",
+    "idade": 10,
+    "evento": "Beta Experience 2026",
+    "descricao": "Uma frase sobre o que a criança criou e o que aprendeu fazendo.",
+    "imagem": "assets/projetos/nome-do-jogo.png",
+    "link": ""
+  },
+  "projetos": []
+}
