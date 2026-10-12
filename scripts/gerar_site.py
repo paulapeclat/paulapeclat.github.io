@@ -43,7 +43,7 @@ TRILHA = [
 ANO = [
     ("Colônia de férias", "Oficinas de Blender e n8n nas férias."),
     ("Beta Experience", "Todas as turmas testam os jogos umas das outras e dão retorno de jogador."),
-    ("Hackathon com O Cibernauta", "Um desafio que atravessa as férias e termina com a entrega dos projetos."),
+    ("Hackathon", "Um desafio que atravessa as férias e termina com a entrega dos projetos."),
     ("Premiação dos Criadores", "O momento de reconhecer o que cada criança criou."),
     ("Encontros Brasil e Portugal", "Crianças dos dois países mostram o que criaram umas para as outras."),
 ]
