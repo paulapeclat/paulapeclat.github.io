@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E1238"/><stop offset="1" stop-color="#0B0716"/></linearGradient>
+    <linearGradient id="y" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD34D"/><stop offset="1" stop-color="#F2A300"/></linearGradient>
+    <linearGradient id="p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A36BFF"/><stop offset="1" stop-color="#6A2BD0"/></linearGradient>
+    <linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5FD3FF"/><stop offset="1" stop-color="#1497CF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <!-- fila: 3 blocos, o primeiro com o check -->
+  <g>
+    <rect x="96" y="110" width="320" height="84" rx="42" fill="#7A5200" opacity=".55" transform="translate(0 12)"/>
+    <rect x="96" y="110" width="320" height="84" rx="42" fill="url(#y)"/>
+    <rect x="118" y="120" width="276" height="14" rx="7" fill="#fff" opacity=".35"/>
+    <circle cx="152" cy="152" r="26" fill="#1A1206"/>
+    <path d="M139 152l9 9 18-19" fill="none" stroke="#FFD34D" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="196" y="140" width="180" height="24" rx="12" fill="#1A1206" opacity=".85"/>
+  </g>
+  <g>
+    <rect x="96" y="226" width="270" height="84" rx="42" fill="#2E0F6B" opacity=".6" transform="translate(0 12)"/>
+    <rect x="96" y="226" width="270" height="84" rx="42" fill="url(#p)"/>
+    <rect x="118" y="236" width="226" height="14" rx="7" fill="#fff" opacity=".3"/>
+    <circle cx="152" cy="268" r="20" fill="#fff" opacity=".9"/>
+    <rect x="190" y="257" width="140" height="22" rx="11" fill="#fff" opacity=".75"/>
+  </g>
+  <g>
+    <rect x="96" y="342" width="214" height="84" rx="42" fill="#0A4C6B" opacity=".6" transform="translate(0 12)"/>
+    <rect x="96" y="342" width="214" height="84" rx="42" fill="url(#c)"/>
+    <rect x="118" y="352" width="170" height="14" rx="7" fill="#fff" opacity=".3"/>
+    <circle cx="152" cy="384" r="20" fill="#fff" opacity=".9"/>
+    <rect x="190" y="373" width="90" height="22" rx="11" fill="#fff" opacity=".75"/>
+  </g>
+  <!-- "+1" chegando -->
+  <circle cx="392" cy="384" r="46" fill="#F4579C"/>
+  <circle cx="392" cy="384" r="46" fill="none" stroke="#0B0716" stroke-width="8"/>
+  <path d="M392 362v44M370 384h44" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+</svg>
