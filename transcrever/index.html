@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Transcrever áudios</title>
+<style>
+  :root{--roxo:#5b2bbf;--amarelo:#ffc531;--tinta:#1d1730;--tinta2:#5c5670;--linha:#e4e0ee;--fundo:#fbfaf7}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.5 system-ui,sans-serif}
+  main{max-width:820px;margin:0 auto;padding:28px 16px 60px}
+  h1{font-size:26px;margin:0 0 6px}
+  p.sub{color:var(--tinta2);margin:0 0 20px}
+  #zona{border:3px dashed var(--roxo);border-radius:18px;padding:36px 16px;text-align:center;background:#f3eeff;cursor:pointer}
+  #zona.sobre{background:#e6dcff}
+  #zona b{display:block;font-size:19px;margin-bottom:4px}
+  #status{margin:16px 0;font-weight:600}
+  .barra{height:10px;background:var(--linha);border-radius:99px;overflow:hidden;margin:6px 0 16px}
+  .barra i{display:block;height:100%;width:0;background:var(--roxo);transition:width .2s}
+  .item{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:14px 16px;margin:12px 0}
+  .item h2{font-size:16px;margin:0 0 6px}
+  .item pre{white-space:pre-wrap;font:15px/1.55 system-ui,sans-serif;margin:0}
+  button{min-height:44px;padding:0 18px;border:0;border-radius:12px;background:var(--roxo);color:#fff;font-weight:700;cursor:pointer}
+  .seg{color:#7a5600;font-size:13px;background:#fff4d1;border-radius:10px;padding:8px 12px;margin-top:20px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Transcrever áudios</h1>
+  <p class="sub">Arraste os áudios aqui. A transcrição roda no seu próprio computador, com o modelo Whisper.</p>
+
+  <label id="zona" for="arquivos">
+    <b>Solte os áudios aqui ou clique para escolher</b>
+    <span>.ogg, .mp3, .m4a, .wav · pode mandar vários de uma vez</span>
+  </label>
+  <input id="arquivos" type="file" accept="audio/*,.ogg,.opus" multiple hidden>
+
+  <div id="status">Pronto para começar.</div>
+  <div class="barra"><i id="progresso"></i></div>
+
+  <div id="resultados"></div>
+  <p><button id="copiar" type="button" hidden>Copiar todas as transcrições</button></p>
+
+  <p class="seg">Privacidade: os arquivos não são enviados para nenhum servidor. Só o modelo de transcrição é baixado na primeira vez (cerca de 250 MB) e fica guardado no navegador.</p>
+</main>
+
+<script type="module">
+import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.1";
+
+env.allowLocalModels = false;
+const MODELO = "onnx-community/whisper-small";
+const statusEl = document.getElementById("status");
+const barra = document.getElementById("progresso");
+const resultados = document.getElementById("resultados");
+const copiar = document.getElementById("copiar");
+const zona = document.getElementById("zona");
+const entrada = document.getElementById("arquivos");
+let transcritor = null;
+const fila = [];
+let ocupado = false;
+
+function status(t, pct) {
+  statusEl.textContent = t;
+  if (pct !== undefined) barra.style.width = Math.max(0, Math.min(100, pct)) + "%";
+}
+
+async function carregarModelo() {
+  if (transcritor) return transcritor;
+  const arquivos = {};
+  const progresso = (p) => {
+    if (p.status === "progress" && p.total) {
+      arquivos[p.file] = [p.loaded, p.total];
+      const [a, b] = Object.values(arquivos).reduce((s, [l, t]) => [s[0] + l, s[1] + t], [0, 0]);
+      status(`Baixando o modelo (só na primeira vez)… ${Math.round(a / 1e6)} de ${Math.round(b / 1e6)} MB`, (a / b) * 100);
+    }
+  };
+  const temGPU = !!navigator.gpu && !!(await navigator.gpu.requestAdapter().catch(() => null));
+  try {
+    transcritor = await pipeline("automatic-speech-recognition", MODELO, temGPU
+      ? { device: "webgpu", dtype: { encoder_model: "fp32", decoder_model_merged: "q4" }, progress_callback: progresso }
+      : { dtype: "q8", progress_callback: progresso });
+  } catch (e) {
+    transcritor = await pipeline("automatic-speech-recognition", MODELO, { dtype: "q8", progress_callback: progresso });
+  }
+  return transcritor;
+}
+
+async function paraMono16k(arquivo) {
+  const buf = await arquivo.arrayBuffer();
+  const ctx = new AudioContext();
+  const audio = await ctx.decodeAudioData(buf);
+  ctx.close();
+  const off = new OfflineAudioContext(1, Math.ceil(audio.duration * 16000), 16000);
+  const src = off.createBufferSource();
+  src.buffer = audio;
+  src.connect(off.destination);
+  src.start();
+  const r = await off.startRendering();
+  return r.getChannelData(0);
+}
+
+function cartao(nome) {
+  const d = document.createElement("div");
+  d.className = "item";
+  d.dataset.arquivo = nome;
+  const h = document.createElement("h2");
+  h.textContent = nome;
+  const p = document.createElement("pre");
+  p.className = "transcricao";
+  p.textContent = "Na fila…";
+  d.append(h, p);
+  resultados.append(d);
+  return p;
+}
+
+async function processar() {
+  if (ocupado) return;
+  ocupado = true;
+  try {
+    const modelo = await carregarModelo();
+    while (fila.length) {
+      const { arquivo, saida } = fila.shift();
+      status(`Transcrevendo ${arquivo.name}… (pode levar alguns minutos)`, 100);
+      saida.textContent = "Transcrevendo…";
+      try {
+        const amostras = await paraMono16k(arquivo);
+        const r = await modelo(amostras, { language: "portuguese", task: "transcribe", chunk_length_s: 30, stride_length_s: 5 });
+        saida.textContent = (r.text || "").trim() || "(sem fala detectada)";
+      } catch (e) {
+        saida.textContent = "Não consegui ler este arquivo: " + e.message;
+      }
+    }
+    status("Pronto. Todas as transcrições estão abaixo.", 100);
+    copiar.hidden = false;
+  } catch (e) {
+    status("Erro ao carregar o modelo: " + e.message);
+  } finally {
+    ocupado = false;
+  }
+}
+
+function adicionar(lista) {
+  [...lista].sort((a, b) => a.name.localeCompare(b.name, "pt", { numeric: true }))
+    .forEach((arquivo) => fila.push({ arquivo, saida: cartao(arquivo.name) }));
+  processar();
+}
+
+entrada.addEventListener("change", () => adicionar(entrada.files));
+["dragenter", "dragover"].forEach((t) => zona.addEventListener(t, (e) => { e.preventDefault(); zona.classList.add("sobre"); }));
+["dragleave", "drop"].forEach((t) => zona.addEventListener(t, (e) => { e.preventDefault(); zona.classList.remove("sobre"); }));
+zona.addEventListener("drop", (e) => adicionar(e.dataTransfer.files));
+copiar.addEventListener("click", async () => {
+  const texto = [...resultados.querySelectorAll(".item")]
+    .map((d) => `### ${d.dataset.arquivo}\n${d.querySelector(".transcricao").textContent}`).join("\n\n");
+  try { await navigator.clipboard.writeText(texto); copiar.textContent = "Copiado!"; } catch { copiar.textContent = "Selecione e copie o texto acima"; }
+});
+</script>
+</body>
+</html>
