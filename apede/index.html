@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APedê · Em construção</title>
+<meta name="description" content="A APedê está sendo construída: uma plataforma para a família inteira criar tecnologias digitais junto. Deixe seu e-mail e saiba primeiro quando abrir.">
+<meta property="og:title" content="APedê · Em construção">
+<meta property="og:description" content="Pensa, cria, compartilha. Em família. Deixe seu e-mail e saiba primeiro quando a APedê abrir.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#8D48E5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%238D48E5'/%3E%3Ctext x='32' y='47' font-family='Arial,sans-serif' font-weight='700' font-size='42' text-anchor='middle' fill='%23FFC531' stroke='%232A0D5C' stroke-width='3' paint-order='stroke'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--roxo:#8D48E5;--roxo-claro:#9D5EF0;--roxo-sombra:#7436DE;--tinta:#2A0D5C;--amarelo:#FFC531;--rosa:#FF9FCB;--creme:#FFF1D6}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--roxo);color:#fff;font-family:'Fredoka',system-ui,sans-serif}
+a{color:#fff}a:hover{color:#FFE680}
+.pagina{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.fita{height:22px;flex-shrink:0;background:repeating-linear-gradient(-45deg,var(--amarelo) 0 22px,var(--tinta) 22px 44px)}
+.fita.baixo{height:14px}
+.bola{position:absolute;border-radius:50%;background:var(--roxo-claro);pointer-events:none}
+.bola.a{left:-140px;top:120px;width:420px;height:420px}
+.bola.b{right:-180px;bottom:-200px;width:600px;height:600px}
+.brilho{position:absolute;pointer-events:none;animation:brilha 2.2s ease-in-out infinite}
+@keyframes brilha{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
+.miolo{position:relative;width:100%;max-width:1200px;margin:0 auto;padding-inline:24px}
+header.miolo{padding-top:24px;display:flex;align-items:center;gap:2px}
+main.miolo{flex-grow:1;padding-top:32px;padding-bottom:48px;display:flex;flex-wrap:wrap;align-items:center;gap:48px}
+.texto{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.selo{margin:0;display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 10px;border-radius:999px;background:var(--tinta);color:var(--amarelo);font-weight:600;font-size:17px;letter-spacing:.04em;text-transform:uppercase}
+h1{margin:0;font-weight:700;font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.02;letter-spacing:-.02em}
+h1 span{color:var(--amarelo)}
+.lead{margin:0;max-width:34rem;font-size:1.3rem;line-height:1.5}
+.lema{margin:0;font-weight:600;font-size:1.3rem;color:var(--creme)}
+form{width:100%;max-width:34rem;margin-top:8px;display:flex;flex-direction:column;gap:10px}
+label{font-weight:600;font-size:1.1rem}
+.linha{display:flex;flex-wrap:wrap;gap:10px}
+input[type=email]{flex:1 1 240px;min-width:0;height:56px;padding:0 20px;border:4px solid var(--tinta);border-radius:18px;background:#fff;color:var(--tinta);font:inherit;font-size:1.1rem}
+input[type=email]:focus{outline:4px solid var(--amarelo);outline-offset:2px}
+button{flex:0 0 auto;height:56px;padding:0 28px;border:4px solid var(--tinta);border-radius:18px;background:var(--amarelo);color:var(--tinta);font:inherit;font-weight:700;font-size:1.15rem;cursor:pointer;box-shadow:0 6px 0 var(--tinta);transition:transform .12s,box-shadow .12s}
+button:hover{background:#FFD45E}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 var(--tinta)}
+button:focus-visible{outline:4px solid #fff;outline-offset:3px}
+button[disabled]{opacity:.7;cursor:wait}
+.nota{margin:4px 0 0;font-size:.95rem;color:var(--creme)}
+.armadilha{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.aviso{width:100%;max-width:34rem;margin-top:8px;padding:18px 22px;border:4px solid var(--tinta);border-radius:18px;background:var(--creme);color:var(--tinta);font-weight:600;font-size:1.15rem}
+.aviso a{color:var(--tinta)}
+.erro{margin:0;font-weight:600;color:#fff;background:var(--tinta);padding:10px 14px;border-radius:12px}
+.cena-col{flex:1 1 380px;min-width:0;display:flex;justify-content:center}
+.cena{position:relative;width:420px;max-width:100%;height:520px}
+.sombra{position:absolute;left:50%;bottom:0;width:360px;max-width:90%;height:30px;transform:translateX(-50%);border-radius:50%;background:var(--roxo-sombra)}
+.mascote{position:absolute;left:0;bottom:14px;width:300px;max-width:72%;animation:pula 2.6s ease-in-out infinite;transform-origin:50% 100%}
+.mascote svg{display:block;width:100%;height:auto}
+@keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.pilha{position:absolute;right:8px;bottom:16px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bloco{width:86px;height:86px;border:5px solid var(--tinta);border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:48px;color:var(--tinta)}
+.cai{animation:cai 3.2s cubic-bezier(.55,0,.6,1) infinite}
+@keyframes cai{0%{transform:translateY(-260px) rotate(-14deg);opacity:0}12%{opacity:1}55%{transform:translateY(0) rotate(0)}62%{transform:translateY(-10px)}70%,88%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:0}}
+footer.miolo{padding-bottom:28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:1rem}
+footer p{margin:0}
+@media (max-width:520px){.cena{height:420px}.bloco{width:68px;height:68px;font-size:38px;border-radius:14px}.selo{font-size:14px}}
+@media (prefers-reduced-motion:reduce){.brilho,.mascote,.cai{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<radialGradient id="bituRoxo" cx="35%" cy="28%" r="80%"><stop offset="0" stop-color="#C39BFF"/><stop offset="0.5" stop-color="#9B5CFF"/><stop offset="1" stop-color="#7436DE"/></radialGradient>
+<radialGradient id="bituBulbo" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFCE6"/><stop offset="0.45" stop-color="#FFE066"/><stop offset="1" stop-color="#F6A90D"/></radialGradient>
+<radialGradient id="bituBrilho" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE680" stop-opacity="0.9"/><stop offset="1" stop-color="#FFE680" stop-opacity="0"/></radialGradient>
+<clipPath id="bituBarriga"><ellipse cx="200" cy="352" rx="62" ry="62"/></clipPath>
+<symbol id="bitu-cabeca" viewBox="0 0 400 460">
+<circle cx="110" cy="92" r="42" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<circle cx="290" cy="92" r="42" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<circle cx="113" cy="95" r="24" fill="#FF9FCB"/>
+<circle cx="287" cy="95" r="24" fill="#FF9FCB"/>
+<ellipse cx="200" cy="180" rx="120" ry="104" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<ellipse cx="200" cy="228" rx="56" ry="38" fill="#FFF1D6"/>
+<ellipse cx="112" cy="212" rx="20" ry="12" fill="#FF8FC0" opacity="0.8"/>
+<ellipse cx="288" cy="212" rx="20" ry="12" fill="#FF8FC0" opacity="0.8"/>
+<ellipse cx="150" cy="164" rx="21" ry="27" fill="#2A0D5C"/>
+<circle cx="157" cy="154" r="8" fill="#FFFFFF"/>
+<circle cx="144" cy="176" r="4" fill="#FFFFFF"/>
+<path d="M188 208Q200 200 212 208Q207 220 200 221Q193 220 188 208Z" fill="#2A0D5C"/>
+<path d="M178 232Q200 268 222 232Q200 240 178 232Z" fill="#5A1E7A" stroke="#2A0D5C" stroke-width="4" stroke-linejoin="round"/>
+<ellipse cx="200" cy="250" rx="9" ry="5" fill="#FF8FC0"/>
+</symbol>
+</defs>
+</svg>
+
+<div class="pagina">
+<div class="fita" aria-hidden="true"></div>
+<div class="bola a" aria-hidden="true"></div>
+<div class="bola b" aria-hidden="true"></div>
+<svg class="brilho" style="left:46%;top:140px" width="40" height="40" viewBox="-20 -20 40 40" aria-hidden="true"><path d="M0-18Q3-3 18 0Q3 3 0 18Q-3 3-18 0Q-3-3 0-18Z" fill="#FFC531"/></svg>
+<svg class="brilho" style="left:8%;bottom:120px;animation-delay:.8s" width="28" height="28" viewBox="-20 -20 40 40" aria-hidden="true"><path d="M0-18Q3-3 18 0Q3 3 0 18Q-3 3-18 0Q-3-3 0-18Z" fill="#fff"/></svg>
+<svg class="brilho" style="right:6%;top:180px;animation-delay:1.4s" width="26" height="26" viewBox="-20 -20 40 40" aria-hidden="true"><path d="M0-18Q3-3 18 0Q3 3 0 18Q-3 3-18 0Q-3-3 0-18Z" fill="#fff"/></svg>
+
+<header class="miolo">
+<svg width="72" height="72" viewBox="46 20 316 316" aria-hidden="true"><use href="#bitu-cabeca"/></svg>
+<svg viewBox="0 0 540 200" width="150" overflow="visible" role="img" aria-label="APedê">
+<g font-family="Fredoka, sans-serif" font-weight="700" font-size="160" letter-spacing="-3">
+<text x="16" y="170" fill="#2A0D5C" stroke="#2A0D5C" stroke-width="24" stroke-linejoin="round">APedê</text>
+<text x="16" y="158" fill="#FFFFFF" stroke="#2A0D5C" stroke-width="24" stroke-linejoin="round" paint-order="stroke">A<tspan fill="#FFC531">P</tspan>edê</text>
+</g>
+</svg>
+</header>
+
+<main class="miolo">
+<div class="texto">
+<p class="selo">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFC531" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20"/><path d="M5 20V10l7-5 7 5v10"/><path d="M9 20v-5h6v5"/></svg>
+Obra em andamento
+</p>
+<h1>Estamos montando a APedê, <span>bloco por bloco.</span></h1>
+<p class="lead">Uma plataforma para a família inteira criar tecnologias digitais junto: jogos, histórias, sites e ideias que saem da cabeça e viram projeto.</p>
+<p class="lema">Pensa, cria, compartilha. Em família.</p>
+
+<form id="avise" novalidate>
+<label for="email">Quer saber quando a gente abrir as portas?</label>
+<div class="linha">
+<input id="email" name="email" type="email" required placeholder="seu@email.com" autocomplete="email" inputmode="email">
+<button type="submit" id="enviar">Me avisa!</button>
+</div>
+<div class="armadilha" aria-hidden="true"><label for="site">Não preencha</label><input id="site" name="_honey" type="text" tabindex="-1" autocomplete="off"></div>
+<p class="erro" id="erro" role="alert" hidden></p>
+<p class="nota">Sem spam. Só a notícia da inauguração.</p>
+</form>
+<div class="aviso" id="ok" role="status" hidden>Anotado! Você vai saber em primeira mão quando a APedê abrir.</div>
+</div>
+
+<div class="cena-col">
+<div class="cena" aria-hidden="true">
+<div class="sombra"></div>
+<div class="mascote">
+<svg viewBox="0 0 400 460">
+<circle cx="336" cy="110" r="64" fill="url(#bituBrilho)"/>
+<path d="M262 372C330 384 374 332 362 254C354 204 330 182 336 156" fill="none" stroke="#2A0D5C" stroke-width="34" stroke-linecap="round"/>
+<path d="M262 372C330 384 374 332 362 254C354 204 330 182 336 156" fill="none" stroke="#8D48E5" stroke-width="21" stroke-linecap="round"/>
+<circle cx="336" cy="110" r="29" fill="url(#bituBulbo)" stroke="#2A0D5C" stroke-width="6"/>
+<path d="M325 112Q330 102 336 112Q341 122 347 112" fill="none" stroke="#E08A00" stroke-width="3.5" stroke-linecap="round"/>
+<ellipse cx="326" cy="98" rx="6" ry="9" fill="#FFFFFF" opacity="0.85"/>
+<rect x="322" y="134" width="28" height="22" rx="6" fill="#D9D3EA" stroke="#2A0D5C" stroke-width="5"/>
+<path d="M326 142H346M326 149H346" stroke="#A79DC2" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="156" cy="420" rx="38" ry="23" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<ellipse cx="244" cy="420" rx="38" ry="23" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<ellipse cx="156" cy="427" rx="19" ry="9" fill="#FF9FCB"/>
+<ellipse cx="244" cy="427" rx="19" ry="9" fill="#FF9FCB"/>
+<ellipse cx="200" cy="336" rx="98" ry="92" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<ellipse cx="200" cy="352" rx="62" ry="62" fill="#FFF1D6"/>
+<g clip-path="url(#bituBarriga)" fill="none" stroke="#EED6AA" stroke-width="5" stroke-linecap="round"><path d="M140 336Q200 354 260 336"/><path d="M140 366Q200 384 260 366"/><path d="M140 396Q200 414 260 396"/></g>
+<ellipse cx="106" cy="334" rx="23" ry="35" transform="rotate(28 106 334)" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<ellipse cx="300" cy="284" rx="23" ry="35" transform="rotate(-38 300 284)" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<circle cx="110" cy="92" r="42" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<circle cx="290" cy="92" r="42" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<circle cx="113" cy="95" r="24" fill="#FF9FCB"/>
+<circle cx="287" cy="95" r="24" fill="#FF9FCB"/>
+<ellipse cx="200" cy="180" rx="120" ry="104" fill="url(#bituRoxo)" stroke="#2A0D5C" stroke-width="6"/>
+<ellipse cx="200" cy="228" rx="56" ry="38" fill="#FFF1D6"/>
+<ellipse cx="112" cy="212" rx="20" ry="12" fill="#FF8FC0" opacity="0.8"/>
+<ellipse cx="288" cy="212" rx="20" ry="12" fill="#FF8FC0" opacity="0.8"/>
+<ellipse cx="150" cy="164" rx="21" ry="27" fill="#2A0D5C"/>
+<circle cx="157" cy="154" r="8" fill="#FFFFFF"/>
+<circle cx="144" cy="176" r="4" fill="#FFFFFF"/>
+<path d="M230 170Q250 146 270 170" fill="none" stroke="#2A0D5C" stroke-width="8" stroke-linecap="round"/>
+<path d="M188 208Q200 200 212 208Q207 220 200 221Q193 220 188 208Z" fill="#2A0D5C"/>
+<path d="M178 232Q200 268 222 232Q200 240 178 232Z" fill="#5A1E7A" stroke="#2A0D5C" stroke-width="4" stroke-linejoin="round"/>
+<ellipse cx="200" cy="250" rx="9" ry="5" fill="#FF8FC0"/>
+</svg>
+</div>
+<div class="pilha">
+<div class="bloco cai" style="background:#FF9FCB">ê</div>
+<div class="bloco" style="background:#FFC531">P</div>
+<div class="bloco" style="background:#FFFFFF">A</div>
+</div>
+</div>
+</div>
+</main>
+
+<footer class="miolo">
+<p>© 2026 APedê</p>
+<p>Contato: <a href="mailto:profpaula@paulapeclat.com.br">profpaula@paulapeclat.com.br</a></p>
+</footer>
+<div class="fita baixo" aria-hidden="true"></div>
+</div>
+
+<script>
+(function () {
+  var DESTINO = 'https://formsubmit.co/ajax/profpaula@paulapeclat.com.br';
+  var form = document.getElementById('avise');
+  var campo = document.getElementById('email');
+  var botao = document.getElementById('enviar');
+  var erro = document.getElementById('erro');
+  var ok = document.getElementById('ok');
+
+  function mostrarErro(msg) { erro.textContent = msg; erro.hidden = false; }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    erro.hidden = true;
+    var email = campo.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      mostrarErro('Confere o e-mail? Parece que falta alguma coisa.');
+      campo.focus();
+      return;
+    }
+    if (document.getElementById('site').value) { form.hidden = true; ok.hidden = false; return; }
+    botao.disabled = true;
+    botao.textContent = 'Enviando...';
+    fetch(DESTINO, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        origem: 'Página em construção da APedê',
+        _subject: 'Nova pessoa na lista de espera da APedê',
+        _template: 'table',
+        _captcha: 'false'
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('falha');
+      return r.json();
+    }).then(function () {
+      form.hidden = true;
+      ok.hidden = false;
+    }).catch(function () {
+      botao.disabled = false;
+      botao.textContent = 'Me avisa!';
+      mostrarErro('Não deu para enviar agora. Tenta de novo ou escreve para profpaula@paulapeclat.com.br.');
+    });
+  });
+})();
+</script>
+</body>
+</html>
