@@ -132,6 +132,16 @@ def json_ld(projetos: list) -> str:
     return json.dumps({"@context": "https://schema.org", "@graph": grafo}, ensure_ascii=False, indent=2)
 
 
+def externo(url: str) -> bool:
+    return url.startswith("http://") or url.startswith("https://")
+
+
+def link(url: str, texto: str, classe: str) -> str:
+    # links para fora abrem em outra aba, sem passar referência nem acesso à página
+    extra = ' target="_blank" rel="noopener noreferrer"' if externo(url) else ""
+    return f'<a class="{classe}" href="{e(url)}"{extra}>{texto}</a>'
+
+
 def galeria(projetos: list) -> str:
     if not projetos:
         return '''<p class="vazio">A galeria abre com os jogos do próximo Beta Experience, quando as turmas testam os projetos umas das outras. <a href="https://instagram.com/paulapeclat.oficial">Acompanhe pelo Instagram</a> enquanto isso.</p>'''
@@ -141,16 +151,29 @@ def galeria(projetos: list) -> str:
         quem = e(p.get("autor", ""))
         if p.get("idade"):
             quem += f", {e(p['idade'])} anos"
-        img = f'<img src="{e(p["imagem"])}" alt="Tela do projeto {e(p["titulo"])}" loading="lazy" width="640" height="400">' if p.get("imagem") else ""
-        jogar = f'<a class="jogar" href="{e(p["link"])}">Jogar {e(p["titulo"])}</a>' if p.get("link") else ""
+        img = f'<img src="{e(p["imagem"])}" alt="Tela do jogo {e(p["titulo"])}" loading="lazy" decoding="async" width="640" height="400" referrerpolicy="no-referrer">' if p.get("imagem") else ""
+        desc = f'\n        <p>{e(p["descricao"])}</p>' if p.get("descricao") else ""
+        acoes = []
+        if p.get("link"):
+            acoes.append(link(p["link"], f'Jogar <span class="sr-only">{e(p["titulo"])}</span>', "jogar"))
+        if p.get("multijogador"):
+            acoes.append(link(p["multijogador"], "Jogar com amigos", "jogar amigos"))
+        botoes = f'\n        <p class="botoes">{" ".join(acoes)}</p>' if acoes else ""
         itens.append(f'''      <li class="projeto" style="--cor:{cor}">
         {img}
         <h3>{e(p["titulo"])}</h3>
-        <p class="meta">{e(p.get("ferramenta", ""))}{" · " + quem if quem else ""}{" · " + e(p["evento"]) if p.get("evento") else ""}</p>
-        <p>{e(p.get("descricao", ""))}</p>
-        {jogar}
+        <p class="meta">{e(p.get("ferramenta", ""))}{" · por " + quem if quem else ""}{" · " + e(p["evento"]) if p.get("evento") else ""}</p>{desc}{botoes}
       </li>''')
     return '<ul class="grade">\n' + "\n".join(itens) + "\n    </ul>"
+
+
+def csp(projetos: list) -> str:
+    # capas que ainda não foram importadas vêm de fora; só esse endereço é liberado
+    fora = sorted({"https://" + p["imagem"].split("/")[2] for p in projetos if externo(p.get("imagem", ""))})
+    img = " ".join(["'self'", "data:"] + fora)
+    return ("default-src 'self'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; "
+            f"img-src {img}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src https://fonts.gstatic.com; connect-src 'none'; frame-src 'none'; upgrade-insecure-requests")
 
 
 def pagina(projetos: list) -> str:
@@ -167,6 +190,8 @@ def pagina(projetos: list) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="{csp(projetos)}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{e(TITULO)}</title>
 <meta name="description" content="{e(DESCRICAO)}">
 <link rel="canonical" href="{URL}">
@@ -237,10 +262,15 @@ def pagina(projetos: list) -> str:
   section > .intro {{ color: var(--suave); max-width: 40em; margin-top: .75rem }}
 
   .grade {{ list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; margin-top: 2.5rem }}
-  .projeto img {{ width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; border-radius: 16px; border-bottom: 6px solid var(--cor) }}
+  .projeto img {{ display: block; background: #15151c; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; border-radius: 16px; border-bottom: 6px solid var(--cor) }}
   .projeto h3 {{ font-size: 1.35rem; margin-top: .9rem }}
   .projeto .meta {{ color: var(--suave); font-size: .9rem }}
-  .projeto .jogar {{ display: inline-block; margin-top: .5rem; font-weight: 800 }}
+  .projeto .meta {{ margin-top: .2rem }}
+  .projeto .botoes {{ display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem }}
+  .projeto .jogar {{ display: inline-block; font: 600 1rem Fredoka, sans-serif; padding: .5rem 1.1rem; border-radius: 999px; text-decoration: none; background: var(--cor); color: var(--preto) }}
+  .projeto .jogar:hover {{ background: var(--branco); color: var(--preto) }}
+  .projeto .jogar.amigos {{ background: transparent; color: var(--branco); box-shadow: inset 0 0 0 2px var(--linha) }}
+  .sr-only {{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }}
   .vazio {{ margin-top: 2rem; max-width: 40em; padding-left: 1.25rem; border-left: 4px solid var(--rosa); font-size: 1.1rem }}
 
   .lista {{ list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 3rem; margin-top: 2.5rem }}
@@ -293,7 +323,7 @@ def pagina(projetos: list) -> str:
 
   <section id="projetos" class="miolo">
     <h2>Projetos das turmas</h2>
-    <p class="intro">Tudo aqui foi criado por crianças, do primeiro protótipo ao jogo que os colegas testaram. Os projetos aparecem com o primeiro nome e a autorização da família.</p>
+    <p class="intro">Jogos criados pelas crianças nas aulas, prontos para jogar no navegador. Cada um aparece só com o primeiro nome ou o apelido de quem criou.</p>
     {galeria(projetos)}
   </section>
 
