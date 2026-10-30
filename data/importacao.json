@@ -1,195 +1,77 @@
 {
   "jogos": [
     {
-      "titulo": "Belligham",
-      "slug": "belligham",
-      "tipo": "pygame",
-      "capa": "ok",
-      "arquivos": 2,
-      "bytes": 152395,
-      "faltando": [],
-      "jogo": "copiado"
-    },
-    {
       "titulo": "Desvia ou Morre",
       "slug": "desvia-ou-morre",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 11,
-      "bytes": 5828206,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 12,
+      "bytes": 37801,
+      "faltando": []
     },
     {
       "titulo": "Explosão Neon",
       "slug": "explosao-neon",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 11,
-      "bytes": 5820220,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 2,
+      "bytes": 1139350,
+      "faltando": []
     },
     {
       "titulo": "Cobrão",
       "slug": "cobrao",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 11,
-      "bytes": 5817866,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 15,
+      "bytes": 4575,
+      "faltando": []
     },
     {
       "titulo": "Pular!",
       "slug": "pular",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 163,
-      "bytes": 3715722,
-      "faltando": [],
-      "jogo": "copiado"
-    },
-    {
-      "titulo": "Tome cuidado com a rodovia",
-      "slug": "tome-cuidado-com-a-rodovia",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Desvie das gomas",
-      "slug": "desvie-das-gomas",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Alimenta o Bichinho",
-      "slug": "alimenta-o-bichinho",
-      "tipo": "pygame",
-      "capa": "ok",
-      "arquivos": 2,
-      "bytes": 23099,
-      "faltando": [],
-      "jogo": "copiado"
-    },
-    {
-      "titulo": "Palmeiras não tem Mundial",
-      "slug": "palmeiras-nao-tem-mundial",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Alimente a toupeira Ahjvn",
-      "slug": "alimente-a-toupeira-ahjvn",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Alni",
-      "slug": "alni",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "O passarinho salvador",
-      "slug": "o-passarinho-salvador",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Pato inteligente",
-      "slug": "pato-inteligente",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Jogo dos balões",
-      "slug": "jogo-dos-baloes",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Franguito dos doguitos",
-      "slug": "franguito-dos-doguitos",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Falling Duck",
-      "slug": "falling-duck",
-      "tipo": "embed",
-      "capa": "ok",
-      "jogo": "MakeCode oficial"
-    },
-    {
-      "titulo": "Space Invaders",
-      "slug": "space-invaders",
-      "tipo": "pygame",
-      "capa": "ok",
-      "arquivos": 2,
-      "bytes": 24549,
-      "faltando": [],
-      "jogo": "copiado"
-    },
-    {
-      "titulo": "Pyc-man",
-      "slug": "pyc-man",
-      "tipo": "pygame",
-      "capa": "ok",
-      "arquivos": 2,
-      "bytes": 6953972,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 90,
+      "bytes": 629591,
+      "faltando": []
     },
     {
       "titulo": "MeowDventure",
       "slug": "meowdventure",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 13,
-      "bytes": 397818,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 21,
+      "bytes": 116351,
+      "faltando": []
     },
     {
       "titulo": "Evade",
       "slug": "evade",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 18,
-      "bytes": 490567,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 35,
+      "bytes": 1092280,
+      "faltando": []
     },
     {
       "titulo": "Robreack",
       "slug": "robreack",
       "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 158,
-      "bytes": 7389550,
-      "faltando": [],
-      "jogo": "copiado"
-    },
-    {
-      "titulo": "Flyer",
-      "slug": "flyer",
-      "tipo": "html5",
-      "capa": "ok",
-      "arquivos": 164,
-      "bytes": 11261087,
-      "faltando": [],
-      "jogo": "copiado"
+      "etapa": "arquivos extras",
+      "arquivos": 0,
+      "bytes": 0,
+      "faltando": [
+        "Arrow Side.glb",
+        "Base 1 Ramp Low To Mid White Blue.glb",
+        "Chest Gold.glb",
+        "Palm Tree 3.glb",
+        "Planet 8.glb",
+        "Small Plastic Green Round Switch_Off.png",
+        "Small Plastic Green Round Switch_On.png",
+        "Spiky Ball.glb"
+      ]
     }
   ],
-  "baixado_bytes": 50147587
+  "baixado_bytes": 3019948
 }
