@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lista de espera · Livros de Paula Peclat</title>
+<meta name="description" content="Entre na lista de espera dos novos livros de Paula Peclat: Meu filho só quer jogar, Obby de Papel e Manual de Sobrevivência para Quem Grita com o ChatGPT.">
+<meta property="og:title" content="Lista de espera · Livros de Paula Peclat">
+<meta property="og:description" content="Três livros chegando. Inscreva-se e saiba primeiro.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://paulapeclat.github.io/livros/">
+<link rel="canonical" href="https://paulapeclat.github.io/livros/">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --roxo:#5b2bbf; --roxo-escuro:#3d1a8a; --roxo-claro:#efe8ff;
+    --amarelo:#ffc531; --amarelo-claro:#fff4d1;
+    --verde:#1f9d76; --verde-claro:#ddf5ec;
+    --coral:#ef5b45; --coral-claro:#ffe5e0;
+    --tinta:#1d1730; --tinta-2:#5c5670; --linha:#e4e0ee;
+    --fundo:#fbfaf7; --cartao:#ffffff;
+    --raio:18px; --sombra:0 1px 2px rgba(29,23,48,.06),0 8px 24px rgba(29,23,48,.07);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--fundo);color:var(--tinta);font:400 17px/1.55 Nunito,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;line-height:1.12;margin:0}
+  a{color:var(--roxo)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+  /* topo */
+  header{padding:28px 0 0}
+  .marca{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none;color:var(--tinta)}
+  .marca-p{width:36px;height:36px;border-radius:10px;background:var(--roxo);color:var(--amarelo);display:grid;place-items:center;font:700 22px Fredoka,sans-serif;box-shadow:3px 3px 0 var(--amarelo)}
+  .marca small{display:block;font-weight:600;color:var(--tinta-2);font-size:13px}
+
+  /* abertura */
+  .hero{padding:56px 20px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .selo{display:inline-flex;align-items:center;gap:8px;background:var(--amarelo-claro);color:#7a5600;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+  .selo i{width:8px;height:8px;border-radius:50%;background:var(--amarelo);box-shadow:0 0 0 3px rgba(255,197,49,.35)}
+  .hero h1{font-size:clamp(36px,5.4vw,58px);font-weight:700;margin:18px 0 16px;letter-spacing:-.01em}
+  .hero h1 em{font-style:normal;color:var(--roxo);background:linear-gradient(transparent 62%,var(--amarelo) 62% 90%,transparent 90%)}
+  .hero p{color:var(--tinta-2);font-size:19px;max-width:30em;margin:0 0 26px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 26px;border-radius:14px;border:0;background:var(--roxo);color:#fff;font:700 17px Nunito,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 4px 0 var(--roxo-escuro);transition:transform .12s,box-shadow .12s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--roxo-escuro)}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--roxo-escuro)}
+  .btn:focus-visible,input:focus-visible,label.livro:focus-within{outline:3px solid var(--amarelo);outline-offset:3px}
+
+  /* pilha de livros */
+  .pilha{position:relative;height:340px}
+  .capa{position:absolute;width:190px;height:270px;border-radius:6px 14px 14px 6px;padding:22px 18px 18px 26px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--sombra),inset 8px 0 0 rgba(0,0,0,.12);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  .capa h3{font-size:22px;font-weight:700}
+  .capa span{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+  .capa.c1{background:var(--roxo);color:#fff;left:4%;top:40px;transform:rotate(-7deg);z-index:1}
+  .capa.c2{background:var(--amarelo);color:var(--tinta);left:30%;top:8px;transform:rotate(2deg);z-index:3}
+  .capa.c3{background:var(--verde);color:#fff;left:56%;top:52px;transform:rotate(8deg);z-index:2}
+  .pilha:hover .c1{transform:rotate(-10deg) translateX(-10px)}
+  .pilha:hover .c3{transform:rotate(11deg) translateX(10px)}
+  .capa .bloco{font:700 15px Fredoka,sans-serif;background:rgba(255,255,255,.18);border-radius:8px;padding:4px 8px;align-self:flex-start}
+  .c2 .bloco{background:rgba(29,23,48,.08)}
+
+  /* livros */
+  section{padding:40px 0}
+  .titulo-sec{font-size:clamp(28px,3.4vw,38px);font-weight:600;margin-bottom:8px}
+  .sub{color:var(--tinta-2);margin:0 0 28px}
+  .grade{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:18px}
+  .card{background:var(--cartao);border:1px solid var(--linha);border-radius:var(--raio);padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--sombra)}
+  .card.destaque{background:var(--roxo-claro);border-color:#d8c9ff}
+  .tag{align-self:flex-start;font-size:12.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+  .t-pais{background:#fff;color:var(--roxo)}
+  .t-prof{background:var(--verde-claro);color:#106b50}
+  .t-todos{background:var(--coral-claro);color:#a8321f}
+  .card h3{font-size:24px;font-weight:600}
+  .card p{margin:0;color:var(--tinta-2);font-size:16px}
+  .quando{margin-top:auto;padding-top:10px;border-top:1px dashed var(--linha);font-size:14.5px;font-weight:700;color:var(--tinta)}
+  .quando b{color:var(--roxo)}
+
+  /* formulário */
+  .form-box{background:var(--tinta);color:#fff;border-radius:28px;padding:clamp(24px,5vw,48px);display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;position:relative;overflow:hidden}
+  .form-box::after{content:"</>";position:absolute;right:-10px;bottom:-40px;font:700 180px Fredoka,sans-serif;color:rgba(255,255,255,.04);pointer-events:none}
+  .form-box h2{font-size:clamp(28px,3.4vw,40px);font-weight:600;margin-bottom:14px}
+  .form-box .lado p{color:#cfc9e2;margin:0 0 18px}
+  .ganhos{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .ganhos li{display:flex;gap:12px;align-items:flex-start;color:#e9e5f5}
+  .ganhos li::before{content:"";flex:0 0 22px;height:22px;border-radius:7px;background:var(--amarelo) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%231d1730' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;margin-top:2px}
+  form{display:grid;gap:16px;position:relative;z-index:1}
+  .campo label{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+  .campo input[type=text],.campo input[type=email]{width:100%;min-height:50px;border-radius:12px;border:2px solid transparent;background:#fff;color:var(--tinta);font:600 16px Nunito,sans-serif;padding:0 14px}
+  .campo input:invalid:not(:placeholder-shown){border-color:var(--coral)}
+  fieldset{border:0;margin:0;padding:0}
+  legend{font-weight:700;font-size:15px;margin-bottom:8px;padding:0}
+  .opcoes{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{position:relative}
+  .chip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+  .chip span{display:inline-flex;align-items:center;min-height:42px;padding:0 14px;border-radius:12px;border:2px solid rgba(255,255,255,.22);font-weight:700;font-size:15px;color:#e9e5f5;transition:.15s}
+  .chip input:checked+span{background:var(--amarelo);border-color:var(--amarelo);color:var(--tinta)}
+  .chip input:focus-visible+span{outline:3px solid #fff;outline-offset:2px}
+  label.livro{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;cursor:pointer;transition:.15s}
+  label.livro:has(input:checked){border-color:var(--amarelo);background:rgba(255,197,49,.1)}
+  label.livro input{width:22px;height:22px;accent-color:var(--amarelo);flex:0 0 auto}
+  label.livro b{display:block;font-size:15.5px}
+  label.livro small{color:#b9b2d1;font-size:13.5px}
+  .livros{display:grid;gap:8px}
+  .aceite{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#cfc9e2}
+  .aceite input{width:20px;height:20px;margin-top:2px;accent-color:var(--amarelo);flex:0 0 auto}
+  .armadilha{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .form-box .btn{background:var(--amarelo);color:var(--tinta);box-shadow:0 4px 0 #c99410;width:100%}
+  .form-box .btn:hover{box-shadow:0 5px 0 #c99410}
+  .form-box .btn:active{box-shadow:0 1px 0 #c99410}
+  .form-box .btn[disabled]{opacity:.6;cursor:wait}
+  .erro{color:#ffb4a8;font-weight:700;font-size:14.5px;min-height:1em;margin:0}
+  .sucesso{display:none;text-align:center;padding:30px 10px;position:relative;z-index:1}
+  .sucesso .icone{width:72px;height:72px;margin:0 auto 16px;border-radius:20px;background:var(--amarelo);display:grid;place-items:center;font:700 34px Fredoka,sans-serif;color:var(--tinta);animation:pulo .6s cubic-bezier(.3,1.6,.5,1)}
+  .sucesso h3{font-size:30px;margin-bottom:8px}
+  .sucesso p{color:#cfc9e2;margin:0 auto 18px;max-width:26em}
+  .compartilhar{display:inline-flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .compartilhar a,.compartilhar button{min-height:44px;padding:0 16px;border-radius:12px;border:2px solid rgba(255,255,255,.25);background:transparent;color:#fff;font:700 15px Nunito,sans-serif;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer}
+  @keyframes pulo{from{transform:scale(.4) rotate(-12deg);opacity:0}to{transform:none;opacity:1}}
+
+  footer{padding:40px 0 48px;color:var(--tinta-2);font-size:14.5px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;border-top:1px solid var(--linha);padding-top:24px}
+
+  @media (max-width:880px){
+    .hero,.form-box{grid-template-columns:1fr}
+    .grade{grid-template-columns:1fr}
+    .pilha{height:300px;max-width:440px;margin:0 auto;width:100%}
+    .capa{width:160px;height:228px}
+  }
+  @media (max-width:480px){
+    body{font-size:16px}
+    .hero{padding-top:36px}
+    .capa{width:132px;height:190px;padding:16px 12px 12px 20px}
+    .capa h3{font-size:17px}
+    .pilha{height:250px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="marca" href="https://paulapeclat.com.br">
+      <span class="marca-p" aria-hidden="true">P</span>
+      <span>Paula Peclat<small>Educação Tecnológica</small></span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <span class="selo"><i></i>Lista de espera aberta</span>
+      <h1>Três livros a caminho. <em>Saiba primeiro.</em></h1>
+      <p>Livros escritos de dentro das aulas com as crianças, para pais, professores e para quem já perdeu a paciência com a inteligência artificial. Entre na lista e receba o aviso de cada lançamento antes de todo mundo.</p>
+      <a class="btn" href="#inscricao">Quero entrar na lista</a>
+    </div>
+    <div class="pilha" aria-hidden="true">
+      <div class="capa c1"><span>Para pais</span><h3>Meu filho só quer jogar</h3><span class="bloco">▶ play</span></div>
+      <div class="capa c2"><span>Para professores</span><h3>Obby de Papel</h3><span class="bloco">&lt;/&gt;</span></div>
+      <div class="capa c3"><span>Para todo mundo</span><h3>Manual de Sobrevivência para Quem Grita com o ChatGPT</h3><span class="bloco">?!</span></div>
+    </div>
+  </div>
+
+  <section id="livros">
+    <div class="wrap">
+      <h2 class="titulo-sec">Os livros</h2>
+      <p class="sub">Escolha um, dois ou os três na hora de se inscrever.</p>
+      <div class="grade">
+        <article class="card destaque">
+          <span class="tag t-pais">Para pais e mães</span>
+          <h3>Meu filho só quer jogar</h3>
+          <p>Para quem sente que perdeu o controle do tempo de jogo. Um caminho do meio entre proibir e liberar, com casos reais das aulas e o que fazer hoje à noite. No final, um tradutor dos termos que as crianças usam.</p>
+          <div class="quando">Previsão: <b>janeiro de 2027</b></div>
+        </article>
+        <article class="card">
+          <span class="tag t-prof">Para professores</span>
+          <h3>Obby de Papel</h3>
+          <p>Trilogia de atividades desplugadas de pensamento computacional com a lógica dos jogos de obstáculos, para crianças de 8 a 10 anos. Volumes de Matemática, Física e Inglês, em coautoria com Thiago Gomes Veríssimo.</p>
+          <div class="quando">Previsão: <b>em breve</b></div>
+        </article>
+        <article class="card">
+          <span class="tag t-todos">Para todo mundo</span>
+          <h3>Manual de Sobrevivência para Quem Grita com o ChatGPT</h3>
+          <p>Livro de bolso, bem-humorado, para entender por que a IA erra, como ela foi construída e como usar sem passar raiva.</p>
+          <div class="quando">Previsão: <b>em breve</b></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="inscricao">
+    <div class="wrap">
+      <div class="form-box">
+        <div class="lado">
+          <h2>Entre na lista</h2>
+          <p>Leva menos de um minuto.</p>
+          <ul class="ganhos">
+            <li>Aviso no dia de cada lançamento, antes da divulgação aberta</li>
+            <li>Um capítulo de "Meu filho só quer jogar" antes do livro sair</li>
+            <li>Só os livros que você escolher, sem enxurrada de e-mails</li>
+          </ul>
+        </div>
+
+        <div>
+          <form id="form" novalidate>
+            <div class="campo">
+              <label for="nome">Seu nome</label>
+              <input id="nome" name="nome" type="text" autocomplete="given-name" placeholder="Como posso te chamar?" required maxlength="80">
+            </div>
+            <div class="campo">
+              <label for="email">Seu e-mail</label>
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required maxlength="120">
+            </div>
+
+            <fieldset>
+              <legend>Você é</legend>
+              <div class="opcoes">
+                <label class="chip"><input type="radio" name="perfil" value="Mãe ou pai" required><span>Mãe ou pai</span></label>
+                <label class="chip"><input type="radio" name="perfil" value="Professor(a)"><span>Professor(a)</span></label>
+                <label class="chip"><input type="radio" name="perfil" value="Mãe/pai e professor(a)"><span>Os dois</span></label>
+                <label class="chip"><input type="radio" name="perfil" value="Outro"><span>Outro</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Quero saber do lançamento de</legend>
+              <div class="livros">
+                <label class="livro"><input type="checkbox" name="livros" value="Meu filho só quer jogar" checked><span><b>Meu filho só quer jogar</b><small>Para pais · jan/2027</small></span></label>
+                <label class="livro"><input type="checkbox" name="livros" value="Obby de Papel"><span><b>Obby de Papel</b><small>Para professores · em breve</small></span></label>
+                <label class="livro"><input type="checkbox" name="livros" value="Manual de Sobrevivência"><span><b>Manual de Sobrevivência para Quem Grita com o ChatGPT</b><small>Para todo mundo · em breve</small></span></label>
+              </div>
+            </fieldset>
+
+            <div class="armadilha" aria-hidden="true">
+              <label for="site">Não preencha</label>
+              <input id="site" name="site" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <label class="aceite">
+              <input type="checkbox" name="aceite" value="sim" required>
+              <span>Aceito receber e-mails de Paula Peclat sobre estes livros. Meus dados não serão vendidos nem compartilhados, e posso sair da lista quando quiser.</span>
+            </label>
+
+            <p class="erro" id="erro" role="alert"></p>
+            <button class="btn" type="submit" id="enviar">Entrar na lista de espera</button>
+          </form>
+
+          <div class="sucesso" id="sucesso" role="status" aria-live="polite">
+            <div class="icone" aria-hidden="true">✓</div>
+            <h3>Você está na lista!</h3>
+            <p id="msg-sucesso">Vou te avisar por e-mail assim que cada livro escolhido for lançado.</p>
+            <div class="compartilhar">
+              <a id="wpp" href="#" target="_blank" rel="noopener">Mandar para um amigo no WhatsApp</a>
+              <button type="button" id="copiar">Copiar link</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Paula Peclat · pedagoga e game developer</span>
+    <span><a href="https://paulapeclat.com.br">paulapeclat.com.br</a> · <a href="https://instagram.com/paulapeclat.oficial">@paulapeclat.oficial</a></span>
+  </div>
+</footer>
+
+<script>
+  // Cole aqui o endereço do App da Web do Google Apps Script (ver LEIA-ME.md).
+  // Vazio = modo prévia: a página funciona, mas nada é salvo.
+  const ENDPOINT = "";
+
+  const form = document.getElementById("form");
+  const erro = document.getElementById("erro");
+  const botao = document.getElementById("enviar");
+  const params = new URLSearchParams(location.search);
+  const origem = (params.get("origem") || params.get("utm_source") || "direto").slice(0, 40);
+
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    erro.textContent = "";
+    const fd = new FormData(form);
+    const nome = (fd.get("nome") || "").trim();
+    const email = (fd.get("email") || "").trim();
+    const livros = fd.getAll("livros");
+
+    if (fd.get("site")) return; // robô
+    if (!nome) return falha("Escreva seu nome.", "nome");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return falha("Confira o e-mail.", "email");
+    if (!fd.get("perfil")) return falha("Escolha se você é mãe/pai, professor(a) ou outro.");
+    if (!livros.length) return falha("Escolha pelo menos um livro.");
+    if (!fd.get("aceite")) return falha("Marque que aceita receber os e-mails sobre os livros.");
+
+    const ultimo = Number(sessionStorageGet("ultimoEnvio") || 0);
+    if (Date.now() - ultimo < 15000) return falha("Aguarde alguns segundos antes de enviar de novo.");
+
+    if (!ENDPOINT && !/^(localhost|127\.0\.0\.1|)$/.test(location.hostname)) {
+      return falha("As inscrições abrem em breve. Volte daqui a pouco!");
+    }
+
+    botao.disabled = true;
+    botao.textContent = "Enviando...";
+    const dados = new URLSearchParams({
+      nome, email,
+      perfil: fd.get("perfil"),
+      livros: livros.join(" | "),
+      aceite: "sim",
+      origem
+    });
+
+    try {
+      if (ENDPOINT) {
+        await fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: dados });
+      } else {
+        console.info("Modo prévia: configure ENDPOINT para salvar as inscrições.", Object.fromEntries(dados));
+      }
+      sessionStorageSet("ultimoEnvio", String(Date.now()));
+      sucesso(nome, livros);
+    } catch (e) {
+      botao.disabled = false;
+      botao.textContent = "Entrar na lista de espera";
+      falha("Não consegui enviar agora. Verifique sua internet e tente de novo.");
+    }
+  });
+
+  function falha(texto, campo) {
+    erro.textContent = texto;
+    if (campo) document.getElementById(campo).focus();
+  }
+
+  function sucesso(nome, livros) {
+    form.style.display = "none";
+    const caixa = document.getElementById("sucesso");
+    const primeiro = nome.split(" ")[0];
+    document.getElementById("msg-sucesso").textContent =
+      `${primeiro}, vou te avisar por e-mail assim que ${livros.length > 1 ? "cada livro escolhido for lançado" : "o livro for lançado"}.`;
+    caixa.style.display = "block";
+    caixa.scrollIntoView({ block: "center" });
+  }
+
+  const link = location.origin + location.pathname + "?origem=indicacao";
+  document.getElementById("wpp").href =
+    "https://wa.me/?text=" + encodeURIComponent("Entrei na lista de espera dos livros da Paula Peclat sobre crianças, jogos e tecnologia. Entra também: " + link);
+  document.getElementById("copiar").addEventListener("click", async (e) => {
+    try { await navigator.clipboard.writeText(link); e.target.textContent = "Link copiado!"; }
+    catch { e.target.textContent = link; }
+  });
+
+  function sessionStorageGet(k){ try { return sessionStorage.getItem(k); } catch { return null; } }
+  function sessionStorageSet(k,v){ try { sessionStorage.setItem(k,v); } catch {} }
+</script>
+</body>
+</html>
