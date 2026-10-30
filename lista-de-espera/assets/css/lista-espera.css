@@ -1,0 +1,96 @@
+/* =========================================================
+   Paula Peclat · EdTech — lista-espera.css
+   Só o que é próprio da /lista-de-espera/. O resto vem do site.css.
+   ========================================================= */
+/* Sistema do site paulapeclat.com.br (site.css) + componente de tutorial do /familias/.
+   Aqui só o que é próprio da fila: passo da APedê, cartões de escolha, mensagem final e painel. */
+:root{--apede:#8D48E5;--apede-deep:#2A0D5C;--apede-y:#FFC531}
+.sec-head{animation:none!important}
+.tour-bar{grid-template-columns:repeat(4,1fr)}
+.tour-guide .guide{width:60px}
+.say-box{transition:opacity .2s}
+.t-step{position:relative;overflow:hidden}
+.t-lead{color:var(--ink-2);font-size:var(--step-0);max-width:56ch}
+.t-title .peclat span:nth-child(5){color:var(--pink)}
+.t-hint{font:500 .78rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+
+/* passo 2 · APedê */
+.t-apede{background:radial-gradient(520px 380px at 92% 100%,rgb(255 197 49 / .18),transparent 65%),radial-gradient(640px 420px at 0% 0%,rgb(141 72 229 / .5),transparent 70%),linear-gradient(160deg,#1E0F3D,#120A24 70%);border-color:color-mix(in oklab,var(--apede) 55%,var(--line))}
+.t-apede .a-body{display:grid;gap:var(--s-2);max-width:min(560px,100%);position:relative;z-index:2}
+.t-apede .eyebrow{color:#CDB8F5}.t-apede .eyebrow::before{color:var(--apede-y)}
+.wordmark{width:min(250px,64%);height:auto}
+.pilot{display:inline-flex;align-items:center;gap:8px;justify-self:start;font:600 .95rem var(--display);color:var(--apede-deep);background:var(--apede-y);padding:.45em .9em .45em .7em;border-radius:999px;box-shadow:inset 0 2px 0 rgb(255 255 255 / .5),inset 0 -3px 0 rgb(0 0 0 / .15)}
+.pilot i{width:8px;height:8px;border-radius:50%;background:var(--apede-deep)}
+.t-apede p{color:#DCCFF6;max-width:46ch}
+.feat{display:flex;flex-wrap:wrap;gap:8px}
+.feat span{font:500 .78rem/1.2 var(--mono);padding:.5em .85em;border-radius:999px;border:1.5px solid rgb(255 255 255 / .16);color:#E7DDFB}
+.mascot{position:absolute;right:clamp(8px,3vw,40px);bottom:-8px;width:clamp(150px,22vw,250px);z-index:1;pointer-events:none;filter:drop-shadow(0 18px 30px rgb(0 0 0 / .45))}
+.join{position:relative;display:flex;align-items:center;gap:14px;justify-self:start;max-width:100%;padding:12px 18px 12px 12px;border-radius:18px;border:2px solid rgb(255 255 255 / .2);background:rgb(10 4 24 / .55);cursor:pointer;font:600 1.05rem var(--display);transition:border-color .2s,background .2s}
+.join input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.join .check{position:static;flex:none;width:34px;height:34px;border-radius:11px;border:2px solid rgb(255 255 255 / .35);display:grid;place-items:center;transition:.18s}
+.join .check svg{width:16px;height:16px;opacity:0;transition:.18s}
+.join:has(input:checked){border-color:var(--apede-y);background:rgb(255 197 49 / .12)}
+.join:has(input:checked) .check{background:var(--apede-y);border-color:var(--apede-y)}
+.join:has(input:checked) .check svg{opacity:1}
+.join:has(input:focus-visible){outline:3px solid var(--apede-y);outline-offset:3px}
+.join .on{display:none}.join:has(input:checked) .on{display:inline}.join:has(input:checked) .off{display:none}
+@media (max-width:640px){.t-apede .a-body{padding-bottom:150px}.mascot{width:150px;right:12px}}
+@media (prefers-reduced-motion:no-preference){.mascot{animation:float 4.2s ease-in-out infinite}}
+
+/* passo 3 · outros modos */
+.picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-2)}
+@media (max-width:760px){.picks{grid-template-columns:1fr}}
+.pick-card{position:relative;display:flex;align-items:center;gap:var(--s-2);min-width:0;padding:var(--s-2);border-radius:var(--r-md);background:var(--bg-2);border:1.5px solid var(--line);cursor:pointer;transition:border-color .2s,background .2s}
+.pick-card input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;width:100%;height:100%}
+.pick-card .pc-txt{display:grid;gap:2px;min-width:0;flex:1}
+.pick-card small{font:500 .68rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.pick-card b{font:600 var(--step-0)/1.2 var(--display);color:var(--ink)}
+.pick-card .pc-txt > span{color:var(--ink-3);font-size:var(--step--1);line-height:1.4}
+.pick-card .check{flex:none;width:30px;height:30px;border-radius:10px;border:2px solid var(--line);display:grid;place-items:center;transition:.18s}
+.pick-card .check svg{width:14px;height:14px;opacity:0;transition:.18s}
+.pick-card:hover{border-color:color-mix(in oklab,var(--c) 50%,var(--line))}
+.pick-card:has(input:checked){border-color:var(--c);background:color-mix(in oklab,var(--c) 9%,var(--bg-2))}
+.pick-card:has(input:checked) .check{background:var(--c);border-color:var(--c)}
+.pick-card:has(input:checked) .check svg{opacity:1}
+.pick-card:has(input:focus-visible){outline:3px solid var(--c);outline-offset:3px}
+.pick-card .t-ico{--c:inherit;background:var(--c)}
+.tri-ico{background:none!important;box-shadow:none!important;position:relative}
+.tri-ico::before{content:"";position:absolute;inset:4px;background:var(--c);border-radius:8px;clip-path:polygon(18% 8%,96% 52%,18% 96%)}
+
+/* passo 4 · dados */
+.picked{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--ink-3);font-size:var(--step--1)}
+.picked .pill{--c:var(--yellow)}
+.linkbtn{background:none;border:0;padding:0;color:var(--yellow);font-weight:700;text-decoration:underline;font-size:inherit}
+.wl-form{grid-template-columns:repeat(2,minmax(0,1fr));--c:var(--yellow)}
+.wl-form .who{grid-column:1/-1;display:grid;gap:8px}
+.wl-form .who > span{font-size:.9rem;font-weight:700;color:var(--ink-2)}
+.wl-form textarea{width:100%;min-height:84px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:.7em .9em;font-size:1rem;resize:vertical}
+.wl-form textarea:focus{border-color:var(--c);outline:none;box-shadow:0 0 0 4px color-mix(in oklab,var(--c) 22%,transparent)}
+.wl-form label small{font-weight:400;color:var(--ink-3)}
+@media (max-width:640px){.wl-form{grid-template-columns:1fr}}
+.err{color:var(--pink);font-weight:700}
+
+/* concluído */
+.t-done{border-color:var(--yellow);background:radial-gradient(500px 260px at 100% 0%,rgb(252 182 2 / .14),transparent 70%),var(--card)}
+.msgbox{font:500 .9rem/1.65 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 18px;max-height:260px;overflow:auto;user-select:all;color:var(--ink-2)}
+.t-done .actions{display:flex;flex-wrap:wrap;gap:12px}
+.copied{color:var(--teal);font-weight:700}
+.how{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.how li{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:12px;background:var(--bg-2);border:1px solid var(--line);font:600 .9rem var(--display)}
+.how b{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:var(--yellow);color:#1A1206;font-size:.78rem}
+
+.pill-apede{--c:var(--violet)}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.t-done .pills{display:flex;flex-wrap:wrap;gap:8px}
+.t-done .next-list{list-style:none;padding:0;display:grid;gap:10px}
+.t-done .next-list li{display:flex;gap:12px;align-items:flex-start;color:var(--ink-2)}
+.t-done .next-list b{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:var(--yellow);color:#1A1206;font:700 .85rem var(--display)}
+.t-done .actions{display:flex;flex-wrap:wrap;gap:12px}
+.t-done .pills .pill:not(.pill-apede),.picked .pill:not(.pill-apede){--c:var(--yellow)}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+.top{top:env(safe-area-inset-top,0px)}
+.top-pill{white-space:nowrap}
+@media (max-width:420px){.top-pill{font-size:.7rem;padding:.5em .8em}}
+.picks > .pick-card:last-child:nth-child(odd){grid-column:1/-1}
+footer a{color:var(--ink-2)}
