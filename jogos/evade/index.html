@@ -1,0 +1,1084 @@
+<!DOCTYPE html><html><head><title>Evade</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui=1"><meta charset="UTF-8"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="description" content=""><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon64.png"><link rel="apple-touch-icon" sizes="180x180" href="icon180.png"><link rel="icon" type="image/png" sizes="32x32" href="icon32.png"><link rel="icon" type="image/png" sizes="16x16" href="icon16.png"><style>html,body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  overflow:hidden;
+  font-family: Verdana;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#canvaswrapper {
+  text-align: center ;
+}
+</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><style>@font-face { font-family: "ModernDos" ; src: url("fonts/ModernDos.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell","ModernDos"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"bonus_flag.png","version":1,"size":187,"properties":{}},{"file":"bonus_heart.png","version":1,"size":190,"properties":{}},{"file":"bonus_shield.png","version":3,"size":336,"properties":{"frames":1,"fps":5}},{"file":"bonus_torch.png","version":1,"size":188,"properties":{}},{"file":"bonus_turbo.png","version":2,"size":404,"properties":{"frames":1,"fps":5}},{"file":"cloud1.png","version":2,"size":336,"properties":{"frames":1,"fps":5}},{"file":"cloud2.png","version":2,"size":413,"properties":{"frames":1,"fps":5}},{"file":"cloud3.png","version":2,"size":479,"properties":{"frames":1,"fps":5}},{"file":"cloud4.png","version":2,"size":393,"properties":{"frames":1,"fps":5}},{"file":"cloud5.png","version":2,"size":658,"properties":{"frames":1,"fps":5}},{"file":"icon.png","version":6,"size":551,"properties":{"frames":1,"fps":5}},{"file":"icon_bonus.png","version":42,"size":305,"properties":{"frames":1,"fps":5}},{"file":"icon_warning.png","version":17,"size":294,"properties":{"frames":1,"fps":5}},{"file":"item8bit_boots.png","version":1,"size":227,"properties":{}},{"file":"item8bit_gem.png","version":1,"size":183,"properties":{}},{"file":"item8bit_shield.png","version":1,"size":208,"properties":{}},{"file":"microstudiologo.png","version":1,"size":14005,"properties":{"frames":1,"fps":5}},{"file":"missile.png","version":91,"size":432,"properties":{"frames":1,"fps":5}},{"file":"poster.png","version":5,"size":61636,"properties":{"frames":1,"fps":5}},{"file":"ship_0000.png","version":9,"size":537,"properties":{"frames":1,"fps":5}},{"file":"ship_0001.png","version":1,"size":279,"properties":{}},{"file":"ship_0002.png","version":1,"size":300,"properties":{}},{"file":"ship_0003.png","version":1,"size":286,"properties":{}},{"file":"ship_0018.png","version":1,"size":238,"properties":{}},{"file":"spacemissiles_007.png","version":1,"size":1319,"properties":{}},{"file":"tile_0001.png","version":1,"size":141,"properties":{}},{"file":"tile_0018.png","version":1,"size":170,"properties":{}},{"file":"tile_0102.png","version":1,"size":154,"properties":{}},{"file":"tile_0313.png","version":1,"size":187,"properties":{}}],"assets":[],"maps":{},"sounds":[{"file":"bing.wav","version":1,"size":40566,"properties":{}},{"file":"boom.wav","version":1,"size":120820,"properties":{}},{"file":"fanfare.wav","version":1,"size":25406,"properties":{}},{"file":"propeller_loop.wav","version":1,"size":120242,"properties":{}},{"file":"puff.wav","version":1,"size":30486,"properties":{}},{"file":"rocket_loop.wav","version":1,"size":669724,"properties":{}}],"music":[]};
+var graphics = "M1";
+
+</script><script type="text/javascript">var orientation = 'any' ;
+var aspect = '>16x9' ;
+var ms_libs = [] ;
+window.skip_service_worker = true;
+window.exported_project = true;
+window.ms_use_server = false ;
+</script><script src="compiler.js"></script><script src="parser.js"></script><script src="processor.js"></script><script src="program.js"></script><script src="routine.js"></script><script src="runner.js"></script><script src="token.js"></script><script src="tokenizer.js"></script><script src="transpiler.js"></script><script src="microengine.js"></script></body><script type="text/javascript">//
+//
+// The game is started with the code below.
+// Once you have received the "started" signal (see below),
+// you can do the following:
+// 1) Inject functions or objects into the global context of the microStudio engine, example:
+//
+//   window.player.setGlobal("special_callback",function(x) { console.info(x) }) ;
+//   // Your microScript code can now call the "special_callback" function
+//
+// 2) Call microScript global functions from your JavaScript code, example:
+//
+//   window.player.call("call_me_from_javascript",[10,1000]) ;
+//   // arguments to the function call are provided as an array
+//
+// 3) Run a microScript code snippet from your JavaScript code, example:
+//
+//   window.player.exec("player.position_x = 50",function(result) { console.log(result) ; }) ;
+//
+
+window.addEventListener("load",function() {
+  window.player = new Player(function(event) {
+    if (event.name == "started") {
+      // signal that the game is started
+    }
+    else if (event.name == "log") {
+      // console.info(event.data) ;
+    }
+  }) ;
+  document.body.focus() ;
+}) ;
+
+</script><script id="code" type="text/x-microscript">
+
+
+// file: _main.ms
+function()
+ZOOM = 1
+COLLISION_DISTANCE = 10
+
+init = function()
+  system.update_rate = 60
+  //for t in system.threads t.stop() end
+  camera = new Camera()
+  input = new Input()
+  player = new Player()
+  sky = new Sky()
+  particles = new Particles()
+  missiles = new Missiles()
+  bonus = new Bonus()
+  radar = new Radar()
+  gui = new GUI()
+  sfx = new SFX()
+  
+  generateMissileSpeed = 1
+  generateBonusSpeed = 1
+  highScore = storage.get("highScore")
+  
+  sfx.playPropeller()
+  
+end
+
+test = function()
+  if mouse.press then
+   missiles.add(mouse.x,mouse.y)
+   particles.addPuff(mouse.x,mouse.y)
+  end
+end
+
+generateMissiles = function()
+  if missiles.mm.length>4 then return end
+  
+  if random.next()>0.995 then
+    local a = random.nextInt(360)
+    local rx = 250 * sind(a)
+    local ry = 250 * cosd(a)
+    
+    local life = 6
+    local size = 1 + (random.nextInt(2))/2
+    local speed = 0.5 + size
+    missiles.add(rx,ry,speed,life,size) 
+  end
+end
+
+generateBonus = function()
+  if bonus.bb.length>2 then return end
+  
+  if random.next()>0.995 then
+    local r = 300 + random.nextInt(200)
+    local a = random.nextInt(360)
+    local rx = r * sind(a)
+    local ry = r * cosd(a)
+    local bs = tools.randomList(["bonus_turbo","bonus_shield"])
+    bonus.add(bs,rx,ry) 
+  end
+end
+
+update = function()
+  
+  generateMissiles()
+  generateBonus()
+  
+  camera.update()
+  input.update()
+  player.update()
+  radar.update()
+  gui.update()
+  sfx.update()
+
+  local dx = player.dx
+  local dy = player.dy
+  particles.update(dx,dy)
+  sky.update(dx,dy)
+  missiles.update(dx,dy)
+  bonus.update(dx,dy)
+  
+  if player.death and player.t_death>1 and input.ANY_TRIGGER then
+    init()
+  end
+  
+  if player.death and player.t_death<1 then
+    sfx.stopMusic()
+    system.update_rate= tools.lerp(system.update_rate,30,0.1)
+  else
+    system.update_rate=60
+  end
+  
+  if player.score > highScore then
+    highScore = player.score
+    storage.set("highScore",highScore)
+  end
+  
+  //TEST
+  //test()
+end
+
+draw = function()
+  screen.setFont("ModernDos")
+  screen.clear("rgb(0,170,255)")
+  
+  screen.setDrawScale(ZOOM,ZOOM)
+  screen.setTranslation(camera.x,camera.y)
+  sky.draw()
+  bonus.draw()
+  particles.draw()
+  missiles.draw()
+  player.draw()
+  radar.draw()
+  camera.draw()
+  
+  screen.setDrawScale(1,1)
+  screen.setTranslation(0,0)
+  gui.draw()
+end
+
+end()
+
+
+
+// file: bonus.ms
+function()
+Bonus = class
+  
+  constructor = function()
+    bb = []
+  end
+  
+  add = function(bonusSprite,x,y)
+    local b = object
+      bonusSprite = bonusSprite
+      x = x
+      y = y
+      life = 10
+      t = 0
+    end
+    bb.push(b)
+  end
+  
+  update = function(dx,dy)
+    for b in bb 
+      b.x += dx
+      b.y += dy
+      b.t += 1/60
+      
+      b.life -= 1/60
+      if b.life<0 then
+        bb.removeElement(b)
+      end
+    end
+  end
+  
+  draw = function()
+     for b in bb 
+       screen.drawSprite(b.bonusSprite,b.x,b.y)
+     end
+  end
+  
+end
+end()
+
+
+
+// file: camera.ms
+function()
+Camera = class
+  
+  constructor = function()
+    x=0
+    y=0
+    xt=0
+    yt=0
+    shakeIntensity = 0
+    flashTime = 0
+  end
+  
+  shake = function(intensity=5)
+    shakeIntensity += intensity
+  end
+  
+  flash = function()
+    flashTime = 0.1
+  end
+  
+  update = function()
+    flashTime-=1/60
+    shakeIntensity *= 0.9
+    if shakeIntensity < 0.5 then shakeIntensity=0 end
+    local sx = (random.next()-0.5)*shakeIntensity
+    local sy = (random.next()-0.5)*shakeIntensity
+    
+    xt*=0.98
+    yt*=0.98
+    
+    x += (xt-x)*0.2 + sx
+    y += (yt-y)*0.2 + sy
+  end
+  
+  draw = function()
+    if flashTime>0 then
+      screen.clear("#FFF")
+    end
+  end
+  
+end
+end()
+
+
+
+// file: clouds.ms
+function()
+Sky = class
+  
+  constructor = function()
+    cc = []
+    for i = 0 to 20
+      local c = object
+        x = tools.randomRange(-400,400)
+        y = tools.randomRange(-400,400)
+        sprite = "cloud" + (1 + random.nextInt(4))
+      end
+      cc.push(c)
+    end
+  end
+  
+  update = function(dx,dy)
+    for c in cc 
+      c.x += dx
+      c.y += dy
+      if c.x>500 then c.x=-400 end
+      if c.x<-500 then c.x=400 end
+      if c.y>500 then c.y=-400 end
+      if c.y<-500 then c.y=400 end
+    end
+  end
+  
+  draw = function()
+    for c in cc 
+      screen.drawSprite(c.sprite,c.x,c.y)
+    end
+  end
+  
+end
+end()
+
+
+
+// file: gui.ms
+function()
+GUI = class
+  
+  constructor = function()
+  
+  end
+  
+  update = function()
+    
+  end
+  
+  drawText = function(text,x,y,size,colorFront,colorBack,alpha=1)
+    screen.drawTextOutline(text,x,y,size,colorBack)
+    screen.setAlpha(alpha)
+    screen.drawText(text,x,y,size,colorFront)
+    screen.setAlpha(1)
+  end
+  
+  draw = function()
+    local hh = screen.height/2-10
+    local scores = "SCORE: " + player.score  + "        HIGH: " + highScore
+    drawText(scores,0,hh,12,"rgb(255,255,255)","rgb(0,0,0)")
+    if player.death and player.t_death>2 then
+      drawText("EVADE!",0,0,50,"rgb(0,131,197)","rgb(0,0,0)",0.8)
+      drawText("Any key to evade again...",0,-40,12,"rgb(255,255,255)","rgb(0,0,0)")
+      
+      
+      //screen.setFont("BitCell")
+      screen.drawText("made with:",0,-68,8)
+      screen.drawSprite("microstudiologo",0,-80,100)     
+      
+      
+      //system.javascript("window.open(\"https:\microstudio.dev\", \"microstudio\");")  
+      end
+  end
+  
+end
+end()
+
+
+
+// file: input.ms
+function()
+Input = class
+  
+  constructor = function()
+    LEFT = 0
+    RIGHT = 0
+    ACTION = 0
+    ANY = 0
+    _ANY = 0
+    _LEFT = 0
+    _RIGHT = 0
+    _ACTION = 0
+  end
+  
+  update = function()
+    
+    LEFT = keyboard.LEFT or 
+           (touch.touching and touch.x<-50) or
+           (gamepad.LEFT or gamepad.DPAD_LEFT)
+    RIGHT = keyboard.RIGHT or
+            (touch.touching and touch.x>50) or
+            (gamepad.RIGHT or gamepad.DPAD_RIGHT)
+    ACTION = keyboard.SPACE or
+            (touch.touching and touch.x>-50 and touch.x<50) or
+            (gamepad.A)
+    
+    ANY = LEFT or RIGHT or ACTION
+    
+    //Triggers
+    LEFT_TRIGGER = LEFT and not _LEFT
+    RIGHT_TRIGGER = RIGHT and not _RIGHT
+    ACTION_TRIGGER = ACTION and not _ACTION
+    ANY_TRIGGER = ANY and not _ANY
+    
+    //save prev state
+    _LEFT = LEFT
+    _RIGHT = RIGHT
+    _ACTION = ACTION
+    _ANY = ANY
+  end
+  
+  
+end
+end()
+
+
+
+// file: missiles.ms
+function()
+Missiles = class
+  
+  constructor = function()
+    mm = []
+    t = 0
+  end
+  
+  add = function(x,y,speed = 1.5,life=6,size=1)
+    local xt = 0
+    local yt = 0
+    local m = object
+      x = x
+      y = y
+      t = 0
+      speed = speed
+      life = life
+      ww = size * sprites["missile"].width/4
+      hh = size * sprites["missile"].height/4
+      angle = atan2d(xt-x,yt-y)
+      turn_speed = 0.04
+      collided = false
+      sound = audio.playSound("rocket_loop",0.0,1,0,1)
+    end
+    mm.push(m)
+  end
+  
+  checkCollisions = function(m,om)
+    if (om!=m) then
+      local d = tools.distance(m.x,m.y,om.x,om.y)
+      if d<COLLISION_DISTANCE then
+        m.collided = true
+        om.collided = true
+        return true
+      end
+    end
+  end
+
+  update = function(dx,dy)
+    t += 1/60
+    local tick = false
+    if t > 0.05 then tick=true t = 0 end
+    
+    local xt = player.x
+    local yt = player.y
+    
+    for m in mm
+      m.t += 1/60
+      //if enabled, follow the player, else slowdown
+      if m.life>1 then 
+        local targetAngle = atan2d(xt-m.x,yt-m.y)
+        m.angle = tools.rLerp(m.angle,targetAngle,m.turn_speed)
+        if tick then
+          particles.addSmoke(m.x,m.y)
+        end
+      else
+        m.speed *= 0.995
+         m.sound.stop()
+      end
+      
+      //set volume with distance to player
+      local dist = tools.distance(m.x,m.y,xt,yt)
+      local volume = 1/(dist*0.01)
+      //print("dist:"+dist + " vol:" + volume)
+      m.sound.setVolume(volume)
+      m.sound.setPitch(volume)
+      
+      //Apply player movement
+      m.x += dx 
+      m.y += dy 
+      //Apply following movement
+      m.x += sind(m.angle) * m.speed
+      m.y += cosd(m.angle) * m.speed
+      
+      //Check collision with other missiles
+      for om in mm
+        if checkCollisions(m,om) then
+          particles.addExplosion(m.x,m.y,30)
+          particles.addText(m.x,m.y,"BOOM")
+          camera.shake()
+        end
+      end
+      
+      //Decrease life, if death remove
+      m.life -= 1/60
+      if m.life < 0 or m.collided then 
+        m.sound.stop()
+        player.addScore(1)
+        if not m.collided then
+          particles.addPuff(m.x,m.y)
+          particles.addText(m.x,m.y,"PUFF")
+        end
+        mm.removeElement(m)
+      end
+    end
+  end
+  
+  draw = function()
+    for m in mm
+      screen.setDrawRotation(-m.angle)
+      screen.drawSprite("missile",m.x,m.y,m.ww,m.hh)
+      screen.setDrawRotation(0)
+    end
+  end
+end 
+end()
+
+
+
+// file: particles.ms
+function()
+Particles = class
+  
+  constructor = function()
+    pp = []
+    fire_pal = [
+"rgb(255,255,255)",
+"rgb(255,0,0)",
+"rgb(255,85,0)",
+"rgb(255,170,0)",
+"rgb(255,255,0)",
+"rgb(255,255,255)",
+"rgb(79,79,79)",
+"rgb(0,0,0)"]
+  end
+  
+  add = function(x,y,vx,vy,life,draw,text="")
+    local p = object
+      x = x
+      y = y
+      vx = vx
+      vy = vy
+      life = life
+      life_max = life
+      life_norm = 1
+      draw = draw
+      text = text
+    end
+    pp.push(p)
+  end
+  
+  addSmoke = function(x,y)
+    add(x,y,0,0,2,drawSmoke)
+  end
+  
+  addPuff = function(x,y)
+    for i = 0 to 36 by 3
+      local a = i*10 
+      local s = 1+ random.next()
+      local r = random.next()*0.5
+      x += r * sind(a)
+      y += r * cosd(a)
+      local vx = s * sind(a)
+      local vy = s * cosd(a)
+      local life = 0.5 + random.next()*0.5
+      add(x,y,vx,vy,life,drawPuff)
+    end
+    sfx.playPuff()
+  end
+  
+  addExplosion = function(x,y,count)
+    for i = 0 to count
+      local a = random.next()*360
+      local s = 2+random.next()*2
+      local vx = s * sind(a)
+      local vy = s * cosd(a)
+      local life = 0.5 + random.next()*0.5
+      add(x,y,vx,vy,life,drawExplosion)
+    end
+    sfx.playExplosion()
+  end
+  
+  addText = function(x,y,text)
+    local vx = (random.next()-0.5)*2
+    local vy = (random.next()-0.5)*2
+    add(x,y,vx,vy,1.5,drawText,text)
+  end
+  
+  drawSmoke = function(p)
+     local size = 1+5*(1-p.life_norm)
+     screen.fillRect(p.x,p.y,size,size,"rgb(255,255,255)")
+  end
+  
+  drawExplosion = function(p)
+    local ci = round((1-p.life_norm) * (particles.fire_pal.length-1))
+    local color = particles.fire_pal[ci]
+    local size = 16 * (p.life)
+    screen.fillRect(p.x,p.y,size,size,color)
+  end
+  
+  drawPuff = function(p)
+     local size = 2+4*(p.life_norm)
+     screen.fillRect(p.x,p.y,size,size,"rgb(48,48,48)")
+  end
+  
+  drawText = function(p)
+    screen.drawTextOutline(p.text,p.x,p.y,12,"rgb(0,0,0)")
+    screen.drawText(p.text,p.x,p.y,12,"#FFF")
+    
+  end
+  
+  update = function(dx,dy)
+    for p in pp
+      p.vx *=0.95
+      p.vy *=0.95
+      p.x += p.vx + dx
+      p.y += p.vy + dy
+      p.life-=1/60
+      p.life_norm = p.life / p.life_max
+      if p.life<0 then pp.removeElement(p) end
+    end
+  end
+  
+  draw = function()
+    for p in pp
+      p.draw(p)
+    end
+  end
+  
+end
+end()
+
+
+
+// file: player.ms
+function()
+Player = class
+  
+    constructor = function()
+      x = 0
+      y = 0
+      dx = 0
+      dy = 0
+      angle = 0
+      speed = 1
+      turbo = 1
+      t = 0
+      death = false
+      t_death = 0
+      turbo_time = 0
+      shield_time = 0
+      score = 0
+      tick = 0
+    end
+    
+    
+    addScore = function(s)
+      if not death then
+        score+=s
+      end
+    end
+    
+    checkMissilesCollision = function()
+      for m in missiles.mm
+        local d = tools.distance(x,y,m.x,m.y)
+        if m.life>0 and d<COLLISION_DISTANCE then 
+          m.collided = true 
+          particles.addText(m.x,m.y,"BOOM!")
+          if shield_time>0 then 
+            shield_time=0
+            particles.addExplosion(m.x,m.y,20) //missile shielded!
+            particles.addText(m.x,m.y,"SAFE!")
+            return false
+          else
+            return true //<< collision happened!
+          end
+        end
+      end
+      return false
+    end
+    
+   checkBonusCollision = function()
+      for b in bonus.bb
+        local d = tools.distance(x,y,b.x,b.y)
+        if d<COLLISION_DISTANCE*2 then 
+          b.life = 0 
+          if b.bonusSprite == "bonus_turbo" then
+            turbo_time += 10
+            particles.addText(x,y,"TURBO!")
+          end
+          if b.bonusSprite == "bonus_shield" then
+            shield_time += 10
+            particles.addText(x,y,"SHIELD!")
+          end
+          sfx.playBonus()
+          return true
+        end
+      end
+      return false
+    end
+    
+    update = function()
+      local dt = 1/60
+      t += dt
+      tick = 0
+      if (t>0.1) then 
+        tick = true
+        t=0 
+      end
+      if death then t_death += dt end
+      if turbo_time>0 then turbo_time -= dt end
+      if shield_time>0 then shield_time -= dt end
+    
+      if not death then
+        if (tick) then 
+          particles.addSmoke(x,y)
+        end
+        
+        if input.LEFT  then angle+=3 end
+        if input.RIGHT then angle-=3 end
+        
+        if checkMissilesCollision() and not death then
+          death = true
+          t_death = 0
+          particles.addExplosion(x,y,100)
+          particles.addText(x,y,"KABOOOM!")
+          camera.shake(10)
+          camera.flash()
+        end
+        
+        if checkBonusCollision() then
+          addScore(1)
+        end
+        
+        if turbo_time>0 then 
+          turbo=1
+          if tick then
+            particles.addPuff(x,y)
+          end
+        end
+        
+        turbo *= 0.95        
+        dx = sind(angle) * (speed+turbo)
+        dy = -cosd(angle) * (speed+turbo)
+      end
+      
+      dx *= 0.98
+      dy *= 0.98
+    end
+    
+    draw = function()
+      if not death then
+        screen.setDrawRotation(angle)
+        screen.drawSprite("ship_0000",x,y)
+        if shield_time > 0 then
+          screen.setAlpha(0.3)  
+          local shielSize = 48 + sin(shield_time*10)*8
+          screen.fillRound(x,y,shielSize,shielSize,"rgb(0,85,255)")
+          screen.drawRound(x,y,shielSize,shielSize,"rgb(255,255,255)")
+          screen.setAlpha(1)  
+        end
+        screen.setDrawRotation()
+      end
+    end
+    
+end
+end()
+
+
+
+// file: radar.ms
+function()
+Radar = class
+  
+  constructor = function()
+    trackBonus = true
+    trackMissiles = true
+  end
+  
+  update = function()
+    
+  end
+  
+  draw = function()
+    
+    local WW = screen.width/2 - 10
+    local HH = screen.height/2 - 10
+    local P1 = object x=-WW y=+HH end
+    local P2 = object x=+WW y=+HH end
+    local P3 = object x=+WW y=-HH end
+    local P4 = object x=-WW y=-HH end
+    
+    // screen.setColor("rgb(80,197,22)")
+    // screen.drawLine(P1.x,P1.y,P2.x,P2.y)
+    // screen.drawLine(P2.x,P2.y,P3.x,P3.y)
+    // screen.drawLine(P3.x,P3.y,P4.x,P4.y)
+    // screen.drawLine(P4.x,P4.y,P1.x,P1.y)
+    
+    local targets = []
+    targets += bonus.bb
+    targets += missiles.mm
+    
+     for t in targets
+       
+       local PP = object x=player.x y=player.y end
+       local PT = object x=t.x y=t.y end
+       local dist = tools.distance(PP.x,PP.y,PT.x,PT.y)
+       local zoom = 1/(dist/100)
+       local size = 8 + 20*zoom
+       local icon = "icon_warning"
+       if t.bonusSprite then 
+         icon = "icon_bonus"
+        // if t.t<0.5 then
+        //   screen.drawLine(PP.x,PP.y,PT.x,PT.y,"rgb(0,255,0)")
+        // end
+       end
+       
+       local pi12 = tools.segmentIntersection(PP,PT,P1,P2)
+       local pi23 = tools.segmentIntersection(PP,PT,P2,P3)
+       local pi34 = tools.segmentIntersection(PP,PT,P3,P4)
+       local pi41 = tools.segmentIntersection(PP,PT,P4,P1)
+       if pi12 then
+        screen.drawSprite(icon,pi12.x,pi12.y,size,size)
+       end
+       if pi23 then
+        screen.drawSprite(icon,pi23.x,pi23.y,size,size)
+       end
+       if pi34 then
+        screen.drawSprite(icon,pi34.x,pi34.y,size,size)
+       end
+       if pi41 then
+        screen.drawSprite(icon,pi41.x,pi41.y,size,size)
+       end
+       
+     end
+    
+  end
+  
+  
+end
+end()
+
+
+
+// file: sfx.ms
+function()
+SFX = class
+  
+  constructor = function()
+    audio.cancelBeeps()
+    propellerSX = 0
+    volumeSX = 0.2
+    propellerDX = 0
+    volumeDX = 0.2
+  end
+  
+  update = function()
+    volumeSX = tools.lerp(volumeSX,0.2,0.1)
+    volumeDX = tools.lerp(volumeDX,0.2,0.1)
+    if input.LEFT then
+      volumeSX = tools.lerp(volumeSX,0.5,0.1)
+    end
+    if input.RIGHT then
+      volumeDX = tools.lerp(volumeDX,0.5,0.1)
+    end
+    propellerSX.setVolume(volumeSX)
+    propellerDX.setVolume(volumeDX)
+  end
+  
+  playPropeller = function()
+    propellerSX = audio.playSound("propeller_loop",0.2,1,-1,1)
+    propellerDX = audio.playSound("propeller_loop",0.2,1,1,1)
+  end
+  
+  stopMusic = function()
+    audio.cancelBeeps()
+    propellerSX.stop()
+    propellerDX.stop()
+  end
+  
+  
+  playExplosion = function()
+    //audio.beep("noise volume 20 A6 tempo 80 span 500")
+    audio.playSound("boom",1)
+  end
+  
+  playPuff = function()
+    //audio.beep("noise volume 20 A6 tempo 80 span 50")
+    audio.playSound("puff",1)
+  end
+  
+  playBonus = function()
+    audio.playSound("fanfare",0.8)
+  end
+  
+end
+
+end()
+
+
+
+// file: sky.ms
+function()
+Sky = class
+  
+  constructor = function()
+   t = 0
+    clouds = []
+    for i = 0 to 20
+      local c = object
+        x = tools.randomRange(-400,400)
+        y = tools.randomRange(-400,400)
+        sprite = "cloud" + (1 + random.nextInt(4))
+      end
+      clouds.push(c)
+    end
+  end
+  
+  update = function(dx,dy)
+    t+=1/60
+    for c in clouds 
+      c.x += dx
+      c.y += dy
+      if c.x>500 then c.x=-400 end
+      if c.x<-500 then c.x=400 end
+      if c.y>500 then c.y=-400 end
+      if c.y<-500 then c.y=400 end
+    end
+  end
+  
+  draw = function()
+    local l = 50+10*sin(t)
+    l=50
+    local s = 90+10*sin(t)
+    local skyColor = "hsl(200,"+s+"%,"+ l + "%"
+    local a = -player.angle
+    local x1 = 150 * sind(a)
+    local y1 = 150 * cosd(a)
+    local x2 = -150 * sind(a)
+    local y2 = -150 * cosd(a)
+    screen.setLinearGradient(x1,y1,x2,y2,
+      "hsl(200,100%,60%)","hsl(200,100%,40%)")
+    screen.fillRect(0,0,screen.width,screen.height)
+    //screen.setLinearGradient(0,0,0,0,"#000","#000")
+    for c in clouds 
+      screen.drawSprite(c.sprite,c.x,c.y)
+    end
+  end
+  
+end
+end()
+
+
+
+// file: tools.ms
+function()
+tools = object
+  
+  distance = function(x1,y1,x2,y2)
+    local dx = x1-x2
+    local dy = y1-y2
+    return sqrt(dx*dx+dy*dy)
+  end
+  
+  clone = function(obj1)
+    local obj2 = object end
+    for i in obj1
+      obj2[i] = obj1[i]
+    end
+    return obj2
+  end
+
+  clamp = function(val,minValue,maxValue)
+    if val < minValue then val=minValue end
+    if val > maxValue then val=maxValue end
+    return val
+  end
+  
+  inRange = function(val,target,range)
+    return val>target-range/2 and val<target+range/2
+  end
+  
+  lerp = function(a,b,f)
+    return (a * (1.0 - f)) + (b * f)
+  end
+  
+  rLerp = function(a, b, f)
+    local cs = (1-f)*cosd(a) + f*cosd(b)
+    local sn = (1-f)*sind(a) + f*sind(b)
+    return atan2d(sn,cs)
+  end
+  
+  randomRange = function(val_min,val_max)
+    return (random.next() * (val_max-val_min) + val_min)
+  end
+  
+  randomList = function(list)
+    local index = random.nextInt(list.length)
+    return list[index]
+  end
+  
+   drawTextMultilineSplit = function(text,x,y,size,color,maxWidth)
+    //Calc how many lines we need
+    local lines = []
+    local splits = text.split(" ")
+    local splitsWidth = 0
+    local line = ""
+    for s in splits
+      line += s + " "
+      splitsWidth = screen.textWidth(line,size)
+      if splitsWidth >= maxWidth or line.indexOf("\n")>0  then
+        lines.push(line)
+        line = ""
+        splitsWidth = 0
+      end
+    end
+    lines.push(line)
+    
+    local lineOffset = size+2
+    local offy = ((lines.length * lineOffset)-size)/2
+    local i = 0
+    for line in lines
+      screen.drawText(line,x,y-i*lineOffset+offy,size,color)
+      i+=1
+    end
+  end
+  
+  drawTextMultiline = function(lines,x,y,size,color,maxWidth=0)
+    local lineOffset = size+2
+    local offy = ((lines.length * lineOffset)-size)/2
+    local i = 0
+    for line in lines
+      screen.drawText(line,x,y-i*lineOffset+offy,size,color)
+      i+=1
+    end
+  end
+  
+  
+  lineLineIntersection = function (A,B,C,D)
+    //Line AB represented as a1x + b1y = c1
+    local a1 = B.y - A.y
+    local b1 = A.x - B.x
+    local c1 = a1*(A.x) + b1*(A.y)
+ 
+    //Line CD represented as a2x + b2y = c2
+    local a2 = D.y - C.y
+    local b2 = C.x - D.x
+    local c2 = a2*(C.x) + b2*(C.y)
+ 
+    local determinant = a1*b2 - a2*b1
+ 
+    if (determinant == 0) then
+        //The lines are parallel
+        return 0
+    else
+        local x = (b2*c1 - b1*c2)/determinant
+        local y = (a1*c2 - a2*c1)/determinant
+        return object x=x y=y end
+    end
+  end
+  
+  segmentIntersection = function( p0,p1,p2,p3)
+
+    local s1 = object 
+            x = p1.x - p0.x
+            y = p1.y - p0.y
+    end
+    local s2 =object 
+            x = p3.x - p2.x
+            y = p3.y - p2.y
+    end
+    
+    local s = (-s1.y * (p0.x - p2.x) + s1.x * (p0.y - p2.y)) / (-s2.x * s1.y + s1.x * s2.y)
+    local t = ( s2.x * (p0.y - p2.y) - s2.y * (p0.x - p2.x)) / (-s2.x * s1.y + s1.x * s2.y)
+
+    if (s >= 0 and s <= 1 and t >= 0 and t <= 1) then
+        // Collision detected
+        local i_x = p0.x + (t * s1.x)
+        local i_y = p0.y + (t * s1.y)
+        return object x=i_x y=i_y end
+    end
+
+    return 0 // No collision
+end
+  
+end
+end()
+
+
+</script></html>

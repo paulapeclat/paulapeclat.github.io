@@ -1,0 +1,246 @@
+<!DOCTYPE html><html><head><title>desvia_ou_morre (copy)</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui=1"><meta charset="UTF-8"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="description" content=""><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon64.png"><link rel="apple-touch-icon" sizes="180x180" href="icon180.png"><link rel="icon" type="image/png" sizes="32x32" href="icon32.png"><link rel="icon" type="image/png" sizes="16x16" href="icon16.png"><style>html,body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  overflow:hidden;
+  font-family: Verdana;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#canvaswrapper {
+  text-align: center ;
+}
+</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"balao_vermelho.png","version":223,"size":596,"properties":{"frames":1,"fps":5}},{"file":"ceu.png","version":85,"size":23914,"properties":{"frames":4,"fps":2}},{"file":"icon.png","version":585,"size":4718,"properties":{"frames":1,"fps":5}},{"file":"obstaculo.png","version":3,"size":438,"properties":{"frames":2,"fps":20}},{"file":"pixelify-pixelified2.png","version":1,"size":4680,"properties":{}},{"file":"variaves-balao_amarelho.png","version":14,"size":482,"properties":{"frames":1,"fps":5}},{"file":"variaves-balao_azul.png","version":14,"size":487,"properties":{"frames":1,"fps":5}},{"file":"variaves-balao_ciano.png","version":10,"size":491,"properties":{"frames":1,"fps":5}},{"file":"variaves-balao_laranja.png","version":13,"size":504,"properties":{"frames":1,"fps":5}},{"file":"variaves-balao_verde.png","version":19,"size":496,"properties":{"frames":1,"fps":5}},{"file":"variaves-sprite.png","version":12,"size":501,"properties":{"frames":1,"fps":5}},{"file":"variaves-sprite2.png","version":11,"size":494,"properties":{"frames":1,"fps":5}}],"assets":[{"file":"collaboratorchat2-messages.json","version":1,"size":55,"properties":{}},{"file":"microseq-songs-catalog.json","version":1,"size":11,"properties":{}},{"file":"scene-metadata.json","version":2,"size":2,"properties":{}}],"maps":{},"sounds":[],"music":[]};
+var graphics = "M1";
+
+</script><script type="text/javascript">var orientation = 'any' ;
+var aspect = 'free' ;
+var ms_libs = [] ;
+window.skip_service_worker = true;
+window.exported_project = true;
+window.ms_use_server = false ;
+</script><script src="runner.js"></script><script src="brython.js"></script><script src="brython_stdlib.js"></script><script src="microengine.js"></script></body><script type="text/python">from browser import window
+import traceback
+import sys
+
+def execute(str,filename):
+  try:
+    code = compile(str,filename,"exec")
+    return exec(code,globals())
+  except BaseException as err:
+    exp = traceback.format_exception(err)
+    sys.stderr.write(exp)
+  except Error as err:
+    exp = traceback.format_exception(err)
+    sys.stderr.write(exp)
+
+window.python = execute
+window.glob = globals()
+window.pythonLoaded()
+</script><script>window.pythonLoaded = function() {
+  window.player = new Player() ;
+  document.body.focus() ;
+}
+window.addEventListener("load",function() {
+  brython() ;
+}) ;
+
+</script><script id="code" type="text/x-microscript">
+
+import random
+# ============================
+# SKINS (8 opções)
+# crie sprites com esses nomes no microStudio
+# ============================
+SKINS = [
+  "balao_vermelho", "balao_azul",
+  "balao_verde",    "balao_amarelo",
+  "balao_roxo",     "balao_rosa",
+  "balao_laranja",  "balao_preto",
+]
+# posições da grade: 4 colunas x 2 linhas
+GRID_COLS = 4
+CELL      = 38   # tamanho da célula (área de toque)
+# ============================
+# AUXILIARES
+# ============================
+def chave(clica):
+  return getattr(keyboard, clica, 0)
+def captura(x, y, a, l):
+  return (touch.touching and
+    mouse.x > x - l/2 and mouse.x < x + l/2 and
+    mouse.y > y - a/2 and mouse.y < y + a/2)
+def celula_pos(i):
+  # devolve (x, y) da célula i na grade
+  col = i % GRID_COLS
+  lin = i // GRID_COLS
+  x = -57 + col * CELL
+  y = 25 - lin * 50
+  return x, y
+def apertou(k):
+  # detecta o "clique" da tecla (só dispara 1 vez)
+  global teclas_prev
+  agora = chave(k) > 0
+  antes = teclas_prev.get(k, False)
+  teclas_prev[k] = agora
+  return agora and not antes
+def tocou():
+  # detecta o "clique" do toque (só dispara 1 vez)
+  global toque_prev
+  agora = touch.touching
+  antes = toque_prev
+  toque_prev = agora
+  return agora and not antes
+def locariza_x():
+  return (int(random.random() * 11) - 5) * 16
+def aperta_comeca():
+  return {
+    "x":     locariza_x(),
+    "y":     120,
+    "angle": 0,
+    "speed": int(random.random() * 2) + 2,
+    "spin":  int(random.random() * 5) + 2,
+    "state": "warning",
+    "timer": 40,
+  }
+def reset(b):
+  b["x"]     = locariza_x()
+  b["y"]     = 120
+  b["angle"] = 0
+  b["spin"]  = int(random.random() * 5) + 2
+  b["state"] = "warning"
+  b["timer"] = 40
+# ============================
+# INIT
+# ============================
+def init():
+  global heroi, shurikens, pontos, spedrun
+  global apareca_GO, estado, skin_sel
+  heroi = {"x": 0, "y": -35, "h": 44, "w": 23,
+           "targetX": 0, "moving": False, "frame": 0}
+  spedrun    = storage.get("bestScore") or 0
+  skin_sel   = storage.get("skin") or 0   # lembra a última skin
+  pontos     = 0
+  apareca_GO = False
+  estado     = "menu"
+  shurikens = [aperta_comeca() for _ in range(3)]
+# ============================
+# GLOBAIS
+# ============================
+heroi       = {}
+shurikens   = []
+pontos      = 0
+spedrun     = 0
+apareca_GO  = False
+estado      = "menu"
+skin_sel    = 0
+teclas_prev = {}
+toque_prev  = False
+init()  # ← popula tudo antes do primeiro frame
+# ============================
+# UPDATE
+# ============================
+def update():
+  global estado, pontos, spedrun, apareca_GO, skin_sel
+  if estado == "menu":
+    if apertou("SPACE") or (tocou() and captura(0, 0, 200, 200)):
+      estado = "escolha"
+  elif estado == "escolha":
+    # navegação pelo teclado
+    if apertou("LEFT") or apertou("A"):
+      skin_sel = (skin_sel - 1) % len(SKINS)
+    if apertou("RIGHT") or apertou("D"):
+      skin_sel = (skin_sel + 1) % len(SKINS)
+    if apertou("UP") or apertou("W"):
+      skin_sel = (skin_sel - GRID_COLS) % len(SKINS)
+    if apertou("DOWN") or apertou("S"):
+      skin_sel = (skin_sel + GRID_COLS) % len(SKINS)
+    # toque: tocar numa célula seleciona ela
+    if tocou():
+      for i in range(len(SKINS)):
+        cx, cy = celula_pos(i)
+        if captura(cx, cy, CELL, CELL):
+          skin_sel = i
+      # botão JOGAR embaixo
+      if captura(0, -75, 25, 100):
+        storage.set("skin", skin_sel)
+        estado = "jogo"
+    # SPACE confirma a skin atual
+    if apertou("SPACE"):
+      storage.set("skin", skin_sel)
+      estado = "jogo"
+  elif estado == "jogo":
+    if chave("LEFT") or chave("A"):
+      heroi["x"] -= 2
+    if chave("RIGHT") or chave("D"):
+      heroi["x"] += 2
+    heroi["x"] = max(-80, min(80, heroi["x"]))
+    for b in shurikens:
+      if "x" not in b:
+        continue
+      if b["state"] == "warning":
+        b["timer"] -= 1
+        if b["timer"] <= 0:
+          b["state"] = "caindo"
+      elif b["state"] == "caindo":
+        b["y"]     -= b["speed"]
+        b["angle"] += b["spin"]
+        dx = abs(b["x"] - heroi["x"])
+        dy = abs(b["y"] - heroi["y"])
+        if dx < 10 and dy < 10:
+          apareca_GO = True
+          estado = "gameover"
+        if b["y"] < -130:
+          reset(b)
+          pontos += 1
+    if pontos > spedrun:
+      spedrun = pontos
+      storage.set("bestScore", spedrun)
+  elif estado == "gameover":
+    if apertou("SPACE") or (tocou() and captura(0, 0, 200, 200)):
+      init()
+# ============================
+# DRAW
+# ============================
+def draw():
+  screen.clear()
+  if estado == "menu":
+    screen.drawText("desvia_morre", 0, 20, 16, "#fff")
+    screen.drawText("SPACE para jogar", 0, -5, 8, "#aaa")
+    screen.drawText("Record: " + str(spedrun), 0, -20, 8, "#ff0")
+  elif estado == "escolha":
+    screen.drawText("Escolha seu personagem", 0, 70, 10, "#fff")
+    for i in range(len(SKINS)):
+      cx, cy = celula_pos(i)
+      # moldura: amarela na skin selecionada, cinza nas outras
+      if i == skin_sel:
+        screen.drawRect(cx, cy, CELL, CELL, "#ff0")
+      else:
+        screen.drawRect(cx, cy, CELL, CELL, "#555")
+      screen.drawSprite(SKINS[i], cx, cy, 20, 38)
+    screen.drawText("JOGAR", 0, -75, 12, "#0f0")
+    screen.drawText("setas = mudar | SPACE = confirmar", 0, -95, 6, "#aaa")
+  elif estado == "jogo":
+    screen.drawSprite("ceu", 0, -100, screen.width, screen.height * 2)
+    screen.drawSprite(SKINS[skin_sel], heroi["x"], heroi["y"], heroi["w"], heroi["h"])
+    for b in shurikens:
+      if "x" not in b:
+        continue
+      if b["state"] == "warning":
+        screen.drawText("!", b["x"], 90, 12, "#f80")
+      elif b["state"] == "caindo":
+        screen.drawSprite("obstaculo", b["x"], b["y"], 16, 16, b["angle"])
+    screen.drawText("Pontos: " + str(pontos), -70, 80, 8, "#fff")
+    screen.drawText("Record: " + str(spedrun), 50, 80, 8, "#ff0")
+  elif estado == "gameover":
+    screen.drawText("GAME OVER", 0, 20, 16, "#f00")
+    screen.drawText("Pontos: " + str(pontos), 0, 0, 10, "#fff")
+    screen.drawText("SPACE para reiniciar", 0, -20, 8, "#aaa")
+
+</script></html>

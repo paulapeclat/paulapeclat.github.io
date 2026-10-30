@@ -1,0 +1,168 @@
+<!DOCTYPE html><html><head><title>Explosão Neon</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui=1"><meta charset="UTF-8"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="description" content=""><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon64.png"><link rel="apple-touch-icon" sizes="180x180" href="icon180.png"><link rel="icon" type="image/png" sizes="32x32" href="icon32.png"><link rel="icon" type="image/png" sizes="16x16" href="icon16.png"><style>html,body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  overflow:hidden;
+  font-family: Verdana;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#canvaswrapper {
+  text-align: center ;
+}
+</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"icon.png","version":1,"size":903,"properties":{"frames":1,"fps":5}}],"assets":[],"maps":{},"sounds":[],"music":[{"file":"madeira.mp3","version":1,"size":1138447,"properties":{}}]};
+var graphics = "M1";
+
+</script><script type="text/javascript">var orientation = 'any' ;
+var aspect = 'free' ;
+var ms_libs = [] ;
+window.skip_service_worker = true;
+window.exported_project = true;
+window.ms_use_server = false ;
+</script><script src="runner.js"></script><script src="brython.js"></script><script src="brython_stdlib.js"></script><script src="microengine.js"></script></body><script type="text/python">from browser import window
+import traceback
+import sys
+
+def execute(str,filename):
+  try:
+    code = compile(str,filename,"exec")
+    return exec(code,globals())
+  except BaseException as err:
+    exp = traceback.format_exception(err)
+    sys.stderr.write(exp)
+  except Error as err:
+    exp = traceback.format_exception(err)
+    sys.stderr.write(exp)
+
+window.python = execute
+window.glob = globals()
+window.pythonLoaded()
+</script><script>window.pythonLoaded = function() {
+  window.player = new Player() ;
+  document.body.focus() ;
+}
+window.addEventListener("load",function() {
+  brython() ;
+}) ;
+
+</script><script id="code" type="text/x-microscript">
+
+import random
+import math
+
+# Inicialização das variáveis globais
+bolas = []
+particulas = []
+score = 0
+musica = None
+
+
+def criar_bola():
+    return {
+        "x": random.randint(-200, 200),
+        "y": random.randint(-200, 200),
+        "r": random.randint(6, 18),
+        # Cores HSL vibrantes no padrão do microStudio
+        "color": f"hsl({random.randint(0, 360)}, 100%, 65%)",
+        "vx": random.uniform(-1.5, 1.5),
+        "vy": random.uniform(-1.5, 1.5),
+        "alive": True
+    }
+
+
+def init():
+    global score
+    bolas.clear()
+    particulas.clear()
+    score = 0
+    for _ in range(100):
+        bolas.append(criar_bola())
+
+
+def update():
+    global score
+
+    # Detecção de clique/toque no microStudio
+    mouse_clicou = mouse.pressed and mouse.left
+    musica = audio.playMusic("madeira",)
+
+    # Atualiza as bolinhas iluminadas
+    for d in bolas:
+        if not d["alive"]:
+            continue
+        d["x"] += d["vx"]
+        d["y"] += d["vy"]
+        d["vx"] = max(min(d["vx"] + random.uniform(-0.08, 0.08), 2.5), -2.5)
+        d["vy"] = max(min(d["vy"] + random.uniform(-0.08, 0.08), 2.5), -2.5)
+        # Rebatimento nas bordas usando as propriedades da tela do microStudio
+        if abs(d["x"]) > screen.width / 2:
+            d["vx"] *= -1
+        if abs(d["y"]) > screen.height / 2:
+            d["vy"] *= -1
+        # Detecção de colisão do clique com a bolinha
+        if mouse_clicou and abs(mouse.x - d["x"]) < d["r"] and abs(mouse.y - d["y"]) < d["r"]:
+            d["alive"] = False
+            score += 50
+
+            # Spawna 1 bola nova no lugar da que estourou
+            bolas.append(criar_bola())
+
+            # Efeito Digital Circus: Explosão de partículas de luz
+            for _ in range(15):
+                angulo = random.uniform(0, math.pi * 2)
+                velocidade = random.uniform(1, 5)
+                particulas.append({
+                    "x": d["x"], "y": d["y"],
+                    "vx": math.cos(angulo) * velocidade,
+                    "vy": math.sin(angulo) * velocidade,
+                    "r": random.randint(2, 5),
+                    "alpha": 1.0,
+                    "color": d["color"]
+                })
+
+    # Atualiza as partículas da explosão
+    for p in particulas[:]:
+        p["x"] += p["vx"]
+        p["y"] += p["vy"]
+        p["alpha"] -= 0.04  # Sumindo gradativamente
+        if p["alpha"] <= 0:
+            particulas.remove(p)
+
+
+
+
+def draw():
+    # Rastro luminoso: Desenha um fundo semi-transparente para acumular frames anteriores
+    screen.setAlpha(0.15)
+    screen.fillRect(0, 0, screen.width, screen.height, "black")
+
+    # Desenha o brilho e o corpo das bolinhas
+    for d in bolas:
+        if not d["alive"]:
+            continue
+
+        # Camadas de brilho Neon (Luz de Circo)
+        for i in range(2, 0, -2):
+            screen.setAlpha(0.00 * (5 - i))
+            screen.fillRound(d["x"], d["y"], d["r"] + i * 4, d["r"] + i * 4, d["color"])
+
+        # Centro sólido da lâmpada
+        screen.setAlpha(1.0)
+        screen.fillRound(d["x"], d["y"], d["r"], d["r"], d["color"])
+
+    # Desenha as partículas da explosão
+    for p in particulas:
+        screen.setAlpha(p["alpha"])
+        screen.fillRound(p["x"], p["y"], p["r"], p["r"], p["color"])
+
+    # Interface de Pontos (Texto fixo no topo da tela)
+    screen.setAlpha(1.0)
+    screen.drawText(f"Score: {score}", 0, screen.height / 2 - 20, 20, "white")
+
+</script></html>
