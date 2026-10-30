@@ -40,6 +40,8 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 DADOS = ROOT / "data" / "projetos.json"
 RELATORIO = ROOT / "data" / "importacao.json"
+# arquivos que o motor do jogo monta na hora (vistos abrindo o jogo no navegador)
+EXTRA = ROOT / "data" / "importacao-extra.json"
 BASE = "https://s3.paulapeclat.com.br/parke/"
 HOST = "s3.paulapeclat.com.br"
 
@@ -60,7 +62,7 @@ TEXTO = {"html", "htm", "js", "mjs", "css", "json", "txt", "xml", "atlas", "tmx"
 CAMINHO_OK = re.compile(r"^[A-Za-z0-9._\- ()/@+%]+$")
 
 # referências dentro de arquivos de texto: src="x", href='x', url(x), "x.png" ...
-REF = re.compile(r"""(?:src|href)\s*=\s*["']([^"'#?]+)|url\(\s*["']?([^"')#?]+)|["'`]([^"'`\s#?<>]{1,200}\.(?:%s))["'`]"""
+REF = re.compile(r"""(?:src|href)\s*=\s*["']([^"'#?]+)|url\(\s*["']?([^"')#?]+)|["'`]([^"'`\n#?<>]{1,200}\.(?:%s))["'`]"""
                  % "|".join(sorted(EXTENSOES)), re.I)
 
 
@@ -180,10 +182,27 @@ def endereco_makecode(id_: str) -> str | None:
 
 def main() -> int:
     dados = json.loads(DADOS.read_text(encoding="utf-8"))
+    extra = json.loads(EXTRA.read_text(encoding="utf-8")) if EXTRA.exists() else {}
     relatorio, erros = [], 0
     for p in dados.get("projetos", []):
         o = p.get("origem") or {}
-        if o.get("plataforma") != "parke" or o.get("importado"):
+        if o.get("plataforma") != "parke":
+            continue
+        if o.get("importado"):
+            lista = extra.get(o.get("slug"))
+            if lista and o["tipo"] != "embed":
+                item = {"titulo": p["titulo"], "slug": o["slug"], "tipo": o["tipo"], "etapa": "arquivos extras"}
+                try:
+                    seguros = [s for s in (caminho_seguro(x) for x in lista) if s]
+                    r = copiar_jogo(o["id"], ROOT / "jogos" / o["slug"], seguros)
+                    item.update(r)
+                    if not r["faltando"]:
+                        extra.pop(o["slug"], None)
+                except Exception as e:
+                    erros += 1
+                    item["erro"] = str(e)
+                relatorio.append(item)
+                print(json.dumps(item, ensure_ascii=False))
             continue
         slug = o["slug"]
         if not re.fullmatch(r"[a-z0-9-]+", slug):
@@ -223,6 +242,8 @@ def main() -> int:
         print(json.dumps(item, ensure_ascii=False))
 
     DADOS.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if EXTRA.exists():
+        EXTRA.write_text(json.dumps(extra, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     RELATORIO.write_text(json.dumps({"jogos": relatorio, "baixado_bytes": total_baixado}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"pronto: {len(relatorio)} jogo(s), {erros} com erro, {total_baixado / 1e6:.1f} MB")
     return 0
