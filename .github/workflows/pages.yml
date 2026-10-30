@@ -35,7 +35,7 @@ jobs:
       - name: Separar só o que vai pro ar
         run: |
           mkdir -p _site
-          cp -r index.html sitemap.xml robots.txt google*.html favicon.ico assets livros apede lista-de-espera primeiro-obby _site/
+          cp -r index.html sitemap.xml robots.txt google*.html favicon.ico assets livros apede lista-de-espera primeiro-obby transcrever _site/
           if [ -d jogos ]; then cp -r jogos _site/; fi
 
       - uses: actions/configure-pages@v5
