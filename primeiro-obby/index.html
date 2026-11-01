@@ -62,6 +62,11 @@
     background:var(--amarelo);color:#1a1300;font:800 18px/1 "Baloo 2";transition:transform .15s}
   button:hover{transform:translateY(-2px)}
   button[disabled]{opacity:.6;cursor:wait;transform:none}
+  .baixar{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:14px;
+    background:var(--verde);color:#062012;font:800 18px/1 "Baloo 2";text-decoration:none;transition:transform .15s}
+  .baixar:hover{transform:translateY(-2px)}
+  .baixar:focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
+  .titulo-lista{margin-top:32px!important;padding-top:24px;border-top:1px solid var(--line)}
   .msg{margin-top:14px;font-size:15px;min-height:1.4em}
   .msg.ok{color:var(--verde)} .msg.erro{color:var(--rosa)}
   .vagas{margin-top:16px;font-size:13px;color:var(--muted);text-align:center}
@@ -90,8 +95,12 @@
   </section>
 
   <section class="card" aria-labelledby="titulo-form">
-    <h2 id="titulo-form">Entre na lista de espera</h2>
-    <p class="sub">Receba agora o Capítulo 5 de presente, com o primeiro script da criança, e seja avisado(a) do lançamento antes de todo mundo.</p>
+    <h2 id="titulo-form">Amostra grátis: Capítulo 5</h2>
+    <p class="sub">O primeiro script da criança: um bloco que derruba quem encosta. Oito linhas, e ela entende cada uma.</p>
+    <a class="baixar" href="capitulo-5-de-presente.pdf" download type="application/pdf">Baixar o Capítulo 5 (PDF)</a>
+
+    <h2 class="titulo-lista">Quer saber quando o livro sair?</h2>
+    <p class="sub">Entre na lista de espera e seja avisado(a) do lançamento antes de todo mundo.</p>
 
     <form id="lista" novalidate>
       <label for="nome">Seu nome</label>
@@ -124,9 +133,9 @@
       </div>
 
       <label class="check"><input type="checkbox" id="aceite" name="aceite" required>
-        <span>Quero entrar na lista de espera e receber por e-mail o Capítulo 5 e avisos sobre este livro. Li a <a href="privacidade.html">Política de Privacidade</a>. Posso cancelar quando quiser pelo link no fim de cada e-mail.</span></label>
+        <span>Quero entrar na lista de espera e receber por e-mail avisos sobre este livro. Li a <a href="privacidade.html">Política de Privacidade</a>. Posso cancelar quando quiser pelo link no fim de cada e-mail.</span></label>
 
-      <button type="submit" id="enviar">Quero o Capítulo 5 de presente</button>
+      <button type="submit" id="enviar">Entrar na lista de espera</button>
       <p class="msg" id="msg" role="status" aria-live="polite"></p>
     </form>
     <p class="vagas">Poucos e-mails, só sobre o livro. Para sair, use o link no fim de cada e-mail.</p>
@@ -173,7 +182,7 @@
       await fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: corpo });
       ultimoEnvio = Date.now();
       form.reset();
-      avisar("Pronto! O Capítulo 5 chega no seu e-mail. Bom primeiro deploy em família.", "ok");
+      avisar("Pronto! Você está na lista. Bom primeiro deploy em família.", "ok");
     } catch (err) {
       avisar("Não deu certo agora. Tente de novo em instantes.", "erro");
     } finally {
