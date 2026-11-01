@@ -6,6 +6,8 @@
  * Copie a URL gerada para ENDPOINT em primeiro-obby/index.html.
  */
 const ABA = "primeiro-obby";
+// Se o script não estiver dentro da planilha (projeto avulso), cole aqui o ID da planilha.
+const PLANILHA_ID = "";
 // Link do PDF do Capítulo 5. Ele já vai junto na página do GitHub Pages.
 // Deixe vazio ("") para desligar o envio do e-mail; a inscrição continua sendo salva.
 const CAPITULO_URL = "https://paulapeclat.github.io/primeiro-obby/capitulo-5-de-presente.pdf";
@@ -21,7 +23,7 @@ function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(5000);
   try {
-    const planilha = SpreadsheetApp.getActiveSpreadsheet();
+    const planilha = PLANILHA_ID ? SpreadsheetApp.openById(PLANILHA_ID) : SpreadsheetApp.getActiveSpreadsheet();
     const aba = planilha.getSheetByName(ABA) || criarAba(planilha);
 
     // não duplica o mesmo e-mail
@@ -44,8 +46,22 @@ function doPost(e) {
   }
 }
 
+// Teto de e-mails por dia: impede que robôs usem o formulário para disparar spam pela sua conta.
+const LIMITE_DIARIO = 40;
+
+function podeEnviar() {
+  if (MailApp.getRemainingDailyQuota() < 10) return false;
+  const props = PropertiesService.getScriptProperties();
+  const hoje = Utilities.formatDate(new Date(), "America/Sao_Paulo", "yyyy-MM-dd");
+  const chave = "envios-" + hoje;
+  const n = Number(props.getProperty(chave) || 0);
+  if (n >= LIMITE_DIARIO) return false;
+  props.setProperty(chave, String(n + 1));
+  return true;
+}
+
 function enviarPresente(email, nome) {
-  if (!CAPITULO_URL) return;
+  if (!CAPITULO_URL || !podeEnviar()) return;
   const primeiroNome = String(nome || "").replace(/^'/, "").split(" ")[0] || "";
   MailApp.sendEmail({
     to: email,
@@ -80,4 +96,11 @@ function limpar(valor, max) {
 function resposta(status) {
   return ContentService.createTextOutput(JSON.stringify({ status: status }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Rode esta função uma vez no editor para autorizar planilha e e-mail.
+function autorizar() {
+  const planilha = PLANILHA_ID ? SpreadsheetApp.openById(PLANILHA_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!planilha.getSheetByName(ABA)) criarAba(planilha);
+  Logger.log("Planilha ok. E-mails restantes hoje: " + MailApp.getRemainingDailyQuota());
 }
