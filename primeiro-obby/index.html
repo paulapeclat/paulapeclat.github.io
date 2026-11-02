@@ -6,7 +6,7 @@
 <title>Crie o primeiro obby com seu filho(a) · Lista de espera</title>
 <meta name="description" content="Livro de Paula Peclat para pais, mães e crianças criarem juntos o primeiro jogo de obstáculos. Entre na lista de espera e receba o aviso do lançamento.">
 <meta property="og:title" content="Crie o primeiro obby com seu filho(a)">
-<meta property="og:description" content="Um passo a passo para criar o primeiro jogo em família. Lista de espera aberta.">
+<meta property="og:description" content="Um passo a passo para criar o primeiro jogo em família, em duas edições. Baixe o Capítulo 5 grátis e entre na lista de espera.">
 <meta property="og:type" content="book">
 <meta property="og:image" content="https://paulapeclat.github.io/primeiro-obby/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -17,90 +17,106 @@
   @font-face{font-family:Nunito;src:url(fonts/nunito-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
   @font-face{font-family:Nunito;src:url(fonts/nunito-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
   :root{
-    --bg:#0e0b16; --card:#17121f; --line:#2a2236; --text:#f4f1fa; --muted:#b9b0c9;
-    --roxo:#8b5cf6; --amarelo:#ffc83d; --verde:#3ddc84; --azul:#38bdf8; --rosa:#f472b6;
+    --ink:#1d1240; --ink-2:#4a3d7a; --ceu:#8fd3ff; --ceu-2:#e9f6ff; --card:#ffffff; --line:#d9d2ee;
+    --roxo:#6d3fe0; --amarelo:#ffd23f; --verde:#22a862; --azul:#1d95cf; --rosa:#de58a3; --vermelho:#e5484d;
     --r:18px;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
-  body{background:var(--bg);color:var(--text);font:400 17px/1.6 Nunito,system-ui,sans-serif;
-    min-height:100vh;display:flex;flex-direction:column}
-  a{color:var(--amarelo)}
-  .wrap{width:100%;max-width:980px;margin:0 auto;padding:0 16px}
+  body{background:linear-gradient(180deg,var(--ceu) 0,var(--ceu-2) 520px,#f6fbff 100%);color:var(--ink);
+    font:400 17px/1.6 Nunito,system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+  a{color:var(--roxo)}
+  .wrap{width:100%;max-width:1040px;margin:0 auto;padding:0 16px}
   header{padding:22px 0}
-  .marca{font:800 18px/1 "Baloo 2",sans-serif;letter-spacing:.2px;text-decoration:none;color:var(--text)}
-  .marca b{color:var(--amarelo)}
-  main{flex:1;display:grid;gap:40px;grid-template-columns:1.1fr .9fr;align-items:center;padding:24px 0 56px}
-  @media (max-width:820px){main{grid-template-columns:1fr;gap:28px}}
-  .selo{display:inline-block;background:var(--roxo);color:#fff;font:800 13px/1 "Baloo 2";
-    text-transform:uppercase;letter-spacing:.8px;padding:8px 12px;border-radius:999px}
-  h1{font:800 clamp(34px,6vw,54px)/1.05 "Baloo 2",sans-serif;margin:16px 0 14px}
-  h1 .c1{color:var(--amarelo)} h1 .c2{color:var(--verde)} h1 .c3{color:var(--azul)} h1 .c4{color:var(--rosa)}
-  .lead{color:var(--muted);font-size:19px;max-width:34ch}
-  .prova{margin-top:20px;font-size:15px;color:var(--muted)}
-  .capa{float:right;width:190px;height:auto;margin:0 0 16px 22px;border-radius:8px;transform:rotate(3deg);
-    box-shadow:0 18px 40px rgba(0,0,0,.55)}
-  @media (max-width:820px){.capa{float:none;display:block;width:170px;margin:0 auto 18px;transform:none}}
-  ul.ganhos{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
-  ul.ganhos li{display:flex;gap:10px;align-items:flex-start}
-  ul.ganhos li::before{content:"";flex:0 0 12px;height:12px;margin-top:8px;border-radius:3px;background:var(--amarelo)}
-  ul.ganhos li:nth-child(2)::before{background:var(--verde)}
+  .marca{font:800 18px/1 "Baloo 2",sans-serif;text-decoration:none;color:var(--ink)}
+  main{flex:1;display:grid;gap:40px;grid-template-columns:1.15fr .85fr;align-items:start;padding:12px 0 64px}
+  @media (max-width:860px){main{grid-template-columns:1fr;gap:28px}}
+  .selo{display:inline-block;background:var(--ink);color:#fff;font:700 14px/1 Nunito;padding:9px 14px;border-radius:999px}
+  h1{font:800 clamp(38px,6vw,58px)/1 "Baloo 2",sans-serif;margin:18px 0 16px;letter-spacing:-.01em}
+  h1 .obby{display:block;font-size:1.9em;line-height:.95;color:#fff;margin:2px 0 4px -2px;
+    text-shadow:0 2px 0 var(--ink),2px 0 0 var(--ink),-2px 0 0 var(--ink),0 -2px 0 var(--ink),
+    3px 3px 0 var(--ink),5px 5px 0 var(--roxo),7px 7px 0 var(--roxo),9px 9px 0 var(--ink)}
+  .lead{color:var(--ink-2);font-size:19px;max-width:36ch;margin:0}
+  .capas{display:flex;gap:16px;margin:26px 0 8px}
+  .capas figure{margin:0;flex:1;max-width:190px}
+  .capas img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 14px 30px rgba(29,18,64,.25)}
+  .capas figcaption{font-size:14px;font-weight:700;margin-top:10px;line-height:1.3}
+  .capas figcaption span{display:block;font-weight:400;color:var(--ink-2)}
+  h2.sec{font:800 22px/1.2 "Baloo 2";margin:30px 0 10px}
+  ul.ganhos{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+  ul.ganhos li{display:flex;gap:12px;align-items:flex-start}
+  ul.ganhos li::before{content:"";flex:0 0 14px;height:14px;margin-top:6px;border-radius:3px;background:var(--verde);box-shadow:2px 2px 0 rgba(29,18,64,.2)}
+  ul.ganhos li:nth-child(2)::before{background:var(--amarelo)}
   ul.ganhos li:nth-child(3)::before{background:var(--azul)}
   ul.ganhos li:nth-child(4)::before{background:var(--rosa)}
+  ul.ganhos li:nth-child(5)::before{background:var(--roxo)}
+  .prova{margin-top:22px;font-size:15px;color:var(--ink-2)}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+  .card{background:var(--card);border-radius:var(--r);padding:28px;box-shadow:0 18px 40px rgba(29,18,64,.12);position:sticky;top:18px}
   .card h2{font:800 24px/1.2 "Baloo 2";margin:0 0 6px}
-  .card p.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+  .card p.sub{color:var(--ink-2);margin:0 0 18px;font-size:15px}
+  .baixar{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;padding:8px 14px;border-radius:14px;
+    background:var(--ink);color:#fff;font:800 17px/1.2 "Baloo 2";text-decoration:none;text-align:center;transition:transform .15s}
+  .baixar small{font:400 13px/1.3 Nunito;color:#d9cff7}
+  .baixar.alt{background:#fff;color:var(--ink);border:2px solid var(--ink);margin-top:10px}
+  .baixar.alt small{color:var(--ink-2)}
+  .baixar:hover{transform:translateY(-2px)}
+  .titulo-lista{margin-top:30px!important;padding-top:24px;border-top:1px solid var(--line)}
   label{display:block;font-weight:700;font-size:14px;margin:14px 0 6px}
-  input,select{width:100%;font:inherit;color:var(--text);background:#0f0b16;border:1px solid var(--line);
+  input,select{width:100%;font:inherit;color:var(--ink);background:#fbfaff;border:1.5px solid var(--line);
     border-radius:12px;padding:12px 14px;min-height:48px}
-  input:focus,select:focus,button:focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
-  .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px;color:var(--muted);margin-top:16px}
+  input:focus,select:focus,button:focus-visible,.baixar:focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
+  .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px;color:var(--ink-2);margin-top:16px}
   .check input{width:20px;min-height:20px;height:20px;margin-top:2px;accent-color:var(--roxo)}
   .armadilha{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-  button{width:100%;margin-top:20px;min-height:52px;border:0;border-radius:14px;cursor:pointer;
-    background:var(--amarelo);color:#1a1300;font:800 18px/1 "Baloo 2";transition:transform .15s}
-  button:hover{transform:translateY(-2px)}
+  button{width:100%;margin-top:20px;min-height:54px;border:0;border-radius:14px;cursor:pointer;
+    background:var(--amarelo);color:var(--ink);font:800 18px/1 "Baloo 2";box-shadow:0 4px 0 #c99a10;transition:transform .15s,box-shadow .15s}
+  button:hover{transform:translateY(-2px);box-shadow:0 6px 0 #c99a10}
+  button:active{transform:translateY(3px);box-shadow:0 1px 0 #c99a10}
   button[disabled]{opacity:.6;cursor:wait;transform:none}
-  .baixar{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:14px;
-    background:var(--verde);color:#062012;font:800 18px/1 "Baloo 2";text-decoration:none;transition:transform .15s}
-  .baixar:hover{transform:translateY(-2px)}
-  .baixar:focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
-  .titulo-lista{margin-top:32px!important;padding-top:24px;border-top:1px solid var(--line)}
-  .msg{margin-top:14px;font-size:15px;min-height:1.4em}
-  .msg.ok{color:var(--verde)} .msg.erro{color:var(--rosa)}
-  .vagas{margin-top:16px;font-size:13px;color:var(--muted);text-align:center}
-  footer{border-top:1px solid var(--line);padding:18px 0;color:var(--muted);font-size:14px}
+  .msg{margin-top:14px;font-size:15px;min-height:1.4em;font-weight:700}
+  .msg.ok{color:var(--verde)} .msg.erro{color:var(--vermelho)}
+  .vagas{margin-top:14px;font-size:13px;color:var(--ink-2);text-align:center}
+  footer{background:var(--ink);color:#d9cff7;padding:20px 0;font-size:14px}
+  footer a{color:#fff}
   footer .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><a class="marca" href="https://paulapeclat.com.br"><b>Paula Peclat</b> · EdTech</a></div></header>
+<header><div class="wrap"><a class="marca" href="https://paulapeclat.com.br">Paula Peclat · Educação Tecnológica</a></div></header>
 
 <div class="wrap">
 <main>
   <section>
-    <img class="capa" src="capa.jpg" width="600" height="900" alt="Capa do livro Crie o primeiro obby com seu filho(a), de Paula Peclat">
-    <span class="selo">Livro em breve · para pais devs</span>
-    <h1>Crie o <span class="c1">primeiro</span> <span class="c2">obby</span> com seu <span class="c3">filho</span><span class="c4">(a)</span></h1>
-    <p class="lead">Você escreve código o dia inteiro. Agora escreva o primeiro jogo da sua família, com a criança no teclado e você no code review.</p>
+    <span class="selo">Livro em breve · lista de espera aberta</span>
+    <h1>Crie o primeiro <span class="obby">obby</span> com seu filho(a)</h1>
+    <p class="lead">Um passo a passo para pais, mães e crianças de 7 a 12 anos criarem juntos o primeiro jogo de obstáculos. A criança no teclado, você nas perguntas.</p>
+
+    <div class="capas">
+      <figure><img src="capa-iniciantes.jpg" width="480" height="768" alt="Capa da edição para quem nunca programou"><figcaption>Para quem nunca programou<span>Linguagem simples, passo a passo</span></figcaption></figure>
+      <figure><img src="capa-dev.jpg" width="480" height="768" alt="Capa da edição para pais e mães que programam"><figcaption>Para quem programa<span>Com os quadros Modo dev</span></figcaption></figure>
+    </div>
+
+    <h2 class="sec">O que vocês vão fazer</h2>
     <ul class="ganhos">
-      <li>9 sessões de 30 a 45 minutos, cada uma termina com algo jogável</li>
-      <li>Pair programming invertido: o método para ensinar sem pegar o mouse</li>
-      <li>Quadros Modo dev: Luau vs JavaScript e Python, cliente e servidor, debounce, refactor</li>
-      <li>Do papel ao jogo publicado em modo privado, com o primeiro PR em família no fim</li>
+      <li>9 sessões de 30 a 45 minutos, e cada uma termina com algo jogável</li>
+      <li>Em cada capítulo, uma brincadeira sem tela e a mesma ideia no Scratch e no MakeCode Arcade</li>
+      <li>O que cada sessão desenvolve na criança e onde você pode saber mais</li>
+      <li>Do desenho no papel ao jogo publicado com segurança, só para quem vocês escolherem</li>
+      <li>Na edição para quem programa: Luau comparado a JavaScript e Python, cliente e servidor, debounce e refactor</li>
     </ul>
-    <p class="prova">Código aberto da autora, com testes e CI: <a href="https://github.com/paulapeclat/regras-malucas-kit">regras-malucas-kit</a>. Nunca programou? O livro também é para você.</p>
+    <p class="prova">As regras do livro também estão num kit aberto da autora: <a href="https://github.com/paulapeclat/regras-malucas-kit">regras-malucas-kit</a>.</p>
   </section>
 
   <section class="card" aria-labelledby="titulo-form">
-    <h2 id="titulo-form">Amostra grátis: Capítulo 5</h2>
-    <p class="sub">O primeiro script da criança: um bloco que derruba quem encosta. Oito linhas, e ela entende cada uma.</p>
-    <a class="baixar" href="capitulo-5-de-presente.pdf" download type="application/pdf">Baixar o Capítulo 5 (PDF)</a>
+    <h2 id="titulo-form">Leia o Capítulo 5 de graça</h2>
+    <p class="sub">O primeiro script da criança: um bloco que derruba quem encosta. Escolha a edição.</p>
+    <a class="baixar" href="capitulo-5-de-presente-iniciantes.pdf" download type="application/pdf">Baixar amostra<small>edição para quem nunca programou · PDF</small></a>
+    <a class="baixar alt" href="capitulo-5-de-presente.pdf" download type="application/pdf">Baixar amostra<small>edição para quem programa · PDF</small></a>
 
     <h2 class="titulo-lista" id="lista-espera">Quer saber quando o livro sair?</h2>
-    <p class="sub">Entre na lista de espera e seja avisado(a) do lançamento antes de todo mundo.</p>
+    <p class="sub">Entre na lista e receba o aviso do lançamento antes de todo mundo.</p>
 
     <form id="lista" novalidate>
       <label for="nome">Seu nome</label>
@@ -108,6 +124,14 @@
 
       <label for="email">Seu e-mail</label>
       <input id="email" name="email" type="email" autocomplete="email" required maxlength="120">
+
+      <label for="area">Qual edição combina com você?</label>
+      <select id="area" name="area">
+        <option value="">Ainda não sei</option>
+        <option>Para quem nunca programou</option>
+        <option>Para quem programa</option>
+        <option>Quero as duas</option>
+      </select>
 
       <label for="idade">Idade da criança (opcional)</label>
       <select id="idade" name="idade">
@@ -119,26 +143,18 @@
         <option>Sou educador(a)</option>
       </select>
 
-      <label for="area">Você trabalha com tecnologia?</label>
-      <select id="area" name="area">
-        <option value="">Prefiro não dizer</option>
-        <option>Sim, desenvolvo software</option>
-        <option>Sim, outra área de tecnologia</option>
-        <option>Não, mas quero aprender junto</option>
-      </select>
-
       <div class="armadilha" aria-hidden="true">
         <label for="site">Não preencha</label>
         <input id="site" name="site" tabindex="-1" autocomplete="off">
       </div>
 
       <label class="check"><input type="checkbox" id="aceite" name="aceite" required>
-        <span>Quero entrar na lista de espera e receber por e-mail avisos sobre este livro. Li a <a href="privacidade.html">Política de Privacidade</a>. Posso cancelar quando quiser pelo link no fim de cada e-mail.</span></label>
+        <span>Quero entrar na lista de espera e receber por e-mail avisos sobre este livro. Li a <a href="privacidade.html">Política de Privacidade</a>.</span></label>
 
       <button type="submit" id="enviar">Entrar na lista de espera</button>
       <p class="msg" id="msg" role="status" aria-live="polite"></p>
     </form>
-    <p class="vagas">Poucos e-mails, só sobre o livro. Para sair, use o link no fim de cada e-mail.</p>
+    <p class="vagas">Você recebe só o aviso de lançamento e novidades deste livro. Para sair, é um clique no fim de qualquer e-mail.</p>
   </section>
 </main>
 </div>
@@ -182,7 +198,7 @@
       await fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: corpo });
       ultimoEnvio = Date.now();
       form.reset();
-      avisar("Pronto! Você está na lista. Bom primeiro deploy em família.", "ok");
+      avisar("Pronto! Você está na lista. Avisamos assim que o livro sair.", "ok");
     } catch (err) {
       avisar("Não deu certo agora. Tente de novo em instantes.", "erro");
     } finally {
