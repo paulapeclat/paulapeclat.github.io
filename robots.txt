@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /midia/
 Sitemap: https://paulapeclat.github.io/sitemap.xml
