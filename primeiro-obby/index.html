@@ -52,7 +52,30 @@
   ul.ganhos li:nth-child(5)::before{background:var(--roxo)}
   .prova{margin-top:22px;font-size:15px;color:var(--ink-2)}
 
-  .card{background:var(--card);border-radius:var(--r);padding:28px;box-shadow:0 18px 40px rgba(29,18,64,.12);position:sticky;top:18px}
+  .card{background:var(--card);border-radius:var(--r);padding:28px;box-shadow:0 18px 40px rgba(29,18,64,.12);scroll-margin-top:16px}
+  @media (min-width:861px){.card{position:sticky;top:18px}}
+
+  /* aviso flutuante: tem presente lá embaixo */
+  .dica-presente{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));z-index:20;
+    display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border-radius:999px;
+    background:var(--ink);color:#fff;text-decoration:none;font:800 16px/1.1 "Baloo 2",sans-serif;
+    box-shadow:0 10px 26px rgba(29,18,64,.35);transform:translate(-50%,0);width:max-content;max-width:calc(100vw - 32px);white-space:nowrap;
+    transition:opacity .3s,transform .3s;animation:pulso 1.8s ease-out infinite}
+  .dica-presente.some{opacity:0;transform:translate(-50%,30px);pointer-events:none}
+  .dica-presente .presente{font-size:28px;line-height:1;display:inline-block;transform-origin:50% 90%;animation:balanca 1.6s ease-in-out infinite}
+  .dica-presente .txt small{display:block;font:600 12px/1.2 Nunito,sans-serif;color:#d9cff7}
+  .dica-presente .seta{width:30px;height:30px;border-radius:50%;background:var(--amarelo);color:var(--ink);
+    display:grid;place-items:center;flex:none;animation:quica 1.1s ease-in-out infinite}
+  .dica-presente .seta svg{width:16px;height:16px}
+  .dica-presente:focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}
+  @keyframes pulso{0%{box-shadow:0 10px 26px rgba(29,18,64,.35),0 0 0 0 rgba(255,210,63,.75)}
+    70%{box-shadow:0 10px 26px rgba(29,18,64,.35),0 0 0 16px rgba(255,210,63,0)}
+    100%{box-shadow:0 10px 26px rgba(29,18,64,.35),0 0 0 0 rgba(255,210,63,0)}}
+  @keyframes balanca{0%,60%,100%{transform:rotate(0) scale(1)}10%{transform:rotate(-14deg) scale(1.1)}
+    20%{transform:rotate(12deg) scale(1.1)}30%{transform:rotate(-8deg)}40%{transform:rotate(6deg)}50%{transform:rotate(0) translateY(-3px)}}
+  @keyframes quica{0%,100%{transform:translateY(-2px)}50%{transform:translateY(4px)}}
+  .card.chegou{animation:brilho 1.2s ease-out 1}
+  @keyframes brilho{0%{box-shadow:0 0 0 0 rgba(255,210,63,.9),0 18px 40px rgba(29,18,64,.12)}100%{box-shadow:0 0 0 22px rgba(255,210,63,0),0 18px 40px rgba(29,18,64,.12)}}
   .card h2{font:800 24px/1.2 "Baloo 2";margin:0 0 6px}
   .card p.sub{color:var(--ink-2);margin:0 0 18px;font-size:15px}
   .baixar{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;padding:8px 14px;border-radius:14px;
@@ -80,7 +103,7 @@
   footer{background:var(--ink);color:#d9cff7;padding:20px 0;font-size:14px}
   footer a{color:#fff}
   footer .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -109,7 +132,7 @@
     <p class="prova">As regras do livro também estão num kit aberto da autora: <a href="https://github.com/paulapeclat/regras-malucas-kit">regras-malucas-kit</a>.</p>
   </section>
 
-  <section class="card" aria-labelledby="titulo-form">
+  <section class="card" id="presente" aria-labelledby="titulo-form">
     <h2 id="titulo-form">Leia o Capítulo 5 de graça</h2>
     <p class="sub">O primeiro script da criança: um bloco que derruba quem encosta. Escolha a edição.</p>
     <a class="baixar" href="capitulo-5-de-presente-iniciantes.pdf" download type="application/pdf">Baixar amostra<small>edição para quem nunca programou · PDF</small></a>
@@ -157,6 +180,11 @@
     <p class="vagas">Você recebe só o aviso de lançamento e novidades deste livro. Para sair, é um clique no fim de qualquer e-mail.</p>
   </section>
 </main>
+<a class="dica-presente some" id="dica-presente" href="#presente" aria-label="Descer até o Capítulo 5 de presente">
+  <span class="presente" aria-hidden="true">🎁</span>
+  <span class="txt">Capítulo 5 de presente<small>desça para baixar grátis</small></span>
+  <span class="seta" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v11M3 8l5 5 5-5"/></svg></span>
+</a>
 </div>
 
 <footer><div class="wrap">
@@ -164,6 +192,32 @@
   <span><a href="https://paulapeclat.com.br">paulapeclat.com.br</a> · <a href="https://github.com/paulapeclat/regras-malucas-kit">regras-malucas-kit</a></span>
 </div></footer>
 
+<script>
+// O link do story termina em #lista-espera: a página abre sempre no topo.
+(function(){
+  if (location.hash) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    history.replaceState(null, '', location.pathname + location.search);
+    var topo = function(){ window.scrollTo(0, 0); };
+    topo(); window.addEventListener('load', function(){ setTimeout(topo, 0); });
+  }
+  var dica = document.getElementById('dica-presente');
+  var card = document.getElementById('presente');
+  if (!dica || !card || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function(es){
+    var visivel = es[0].isIntersecting;
+    dica.classList.toggle('some', visivel);
+    dica.setAttribute('aria-hidden', visivel ? 'true' : 'false');
+    dica.tabIndex = visivel ? -1 : 0;
+  }, {threshold: 0.25}).observe(card);
+  dica.addEventListener('click', function(e){
+    e.preventDefault();
+    var suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    card.scrollIntoView({behavior: suave ? 'smooth' : 'auto', block: 'start'});
+    card.classList.remove('chegou'); void card.offsetWidth; card.classList.add('chegou');
+  });
+})();
+</script>
 <script>
   // Cole aqui a URL do App Script (veja LEIA-ME.md). Enquanto vazio, o formulário avisa que ainda não está ativo.
   const ENDPOINT = "https://script.google.com/macros/s/AKfycbxMGqgLM7NcYHCtjdMLzIPKW8mAxwiMGOq7aMmh-e-vkmCPVhQe-Qz5WLROTu20QsZqTQ/exec";
