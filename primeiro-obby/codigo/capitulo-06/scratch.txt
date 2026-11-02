@@ -1,0 +1,26 @@
+// No personagem
+quando @greenFlag for clicado
+mude [checkpoint x v] para (-200)
+mude [checkpoint y v] para (0)
+vá para x: (checkpoint x) y: (checkpoint y)
+sempre
+se <tocando em [Bandeira v]?> então
+mude [checkpoint x v] para (posição x)
+mude [checkpoint y v] para (posição y)
+end
+se <tocando em [Lava v]?> então
+vá para x: (checkpoint x) y: (checkpoint y)
+end
+end
+
+// Na Plataforma
+quando @greenFlag for clicado
+mude [distância v] para (40)
+sempre
+repita (distância :: variables) vezes
+adicione (3) a x
+end
+repita (distância :: variables) vezes
+adicione (-3) a x
+end
+end

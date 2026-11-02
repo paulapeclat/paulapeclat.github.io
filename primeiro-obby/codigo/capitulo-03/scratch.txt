@@ -1,0 +1,24 @@
+quando @greenFlag for clicado
+vá para x: (-200) y: (-120)
+sempre
+se <tecla [seta para cima v] pressionada?> então
+adicione (5) a y
+end
+se <tecla [seta para baixo v] pressionada?> então
+adicione (-5) a y
+end
+se <tecla [seta para direita v] pressionada?> então
+aponte para a direção (90)
+mova (5) passos
+end
+se <tecla [seta para esquerda v] pressionada?> então
+aponte para a direção (-90)
+mova (5) passos
+end
+se <tocando em [Lava v]?> então
+vá para x: (-200) y: (-120)
+end
+se <tocando em [Troféu v]?> então
+diga [Chegou!] por (2) segundos
+end
+end

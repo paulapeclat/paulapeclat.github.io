@@ -1,0 +1,30 @@
+// No jogador
+quando @greenFlag for clicado
+mude [velocidade v] para (4)
+mude [turbo ligado v] para (0)
+sempre
+se <tecla [seta para direita v] pressionada?> então
+adicione (velocidade) a x
+end
+se <tecla [seta para esquerda v] pressionada?> então
+adicione ((0) - (velocidade)) a x
+end
+end
+
+quando eu receber [turbo v]
+mude [velocidade normal v] para (velocidade)
+mude [velocidade v] para (12)
+espere (5) seg
+mude [velocidade v] para (velocidade normal)
+mude [turbo ligado v] para (0)
+
+// No raio
+quando @greenFlag for clicado
+sempre
+se <tocando em [jogador v]?> então
+se <(turbo ligado) = (0)> então
+mude [turbo ligado v] para (1)
+transmita [turbo v]
+end
+end
+end

@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # o histórico dá a data de cada código do livro
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -31,6 +33,9 @@ jobs:
 
       - name: Gerar o site a partir de data/projetos.json
         run: python scripts/gerar_site.py
+
+      - name: Gerar a página dos códigos do livro do obby
+        run: python scripts/gerar_codigos_obby.py
 
       - name: Separar só o que vai pro ar
         run: |

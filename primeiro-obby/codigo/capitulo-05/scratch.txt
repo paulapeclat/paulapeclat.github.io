@@ -1,0 +1,16 @@
+quando @greenFlag for clicado
+mude [vidas v] para (3)
+vá para x: (-200) y: (0)
+sempre
+se <tocando em [Lava v]?> então
+adicione (-1) a [vidas v]
+vá para x: (-200) y: (0)
+espere (1) seg
+end
+end
+
+quando a tecla [seta para direita v] for pressionada
+adicione (10) a x
+
+quando a tecla [seta para esquerda v] for pressionada
+adicione (-10) a x

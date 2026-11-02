@@ -1,0 +1,21 @@
+quando @greenFlag for clicado
+vá para x: (-200) y: (100)
+mude [queda v] para (0)
+sempre
+adicione (queda) a y
+se <tocando em [Plataformas v]?> então
+adicione ((0) - (queda)) a y
+mude [queda v] para (0)
+se <tecla [espaço v] pressionada?> então
+mude [queda v] para (12)
+end
+senão
+adicione (-1) a [queda v]
+end
+se <tecla [seta para direita v] pressionada?> então
+adicione (4) a x
+end
+se <tecla [seta para esquerda v] pressionada?> então
+adicione (-4) a x
+end
+end

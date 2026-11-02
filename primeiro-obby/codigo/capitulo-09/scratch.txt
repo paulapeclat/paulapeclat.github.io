@@ -1,0 +1,7 @@
+quando @greenFlag for clicado // Evento: começa quando clico na bandeira
+sempre
+se <tocando em [Lava v]?> então // Condição: encostou na lava?
+espere (3) seg // Remix: era 1, agora é 3
+vá para x: (-200) y: (0)
+end
+end

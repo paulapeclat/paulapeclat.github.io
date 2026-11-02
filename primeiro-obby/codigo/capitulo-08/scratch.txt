@@ -1,0 +1,3 @@
+quando eu receber [fim de jogo v]
+pergunte [Do que você mais gostou?] e espere
+diga (resposta) por (3) segundos

@@ -1,0 +1,9 @@
+quando @greenFlag for clicado
+vá para x: (0) y: (0)
+defina o tamanho como (150) %
+mude (25) ao efeito [cor v]
+
+quando este ator for clicado
+adicione (20) a y
+espere (1) seg
+adicione (-20) a y

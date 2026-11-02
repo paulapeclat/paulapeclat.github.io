@@ -1,0 +1,7 @@
+quando @greenFlag for clicado
+mude [regras lidas v] para (0)
+diga [Bem-vindo ao nosso estúdio!] por (2) segundos
+diga [Regra 1: quem cria escolhe o apelido] por (3) segundos
+adicione (1) a [regras lidas v]
+diga [Regra 2: errou, respira e testa] por (3) segundos
+adicione (1) a [regras lidas v]
