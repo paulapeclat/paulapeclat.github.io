@@ -394,7 +394,7 @@ def main():
         f"  <url><loc>{URL}primeiro-obby/</loc><lastmod>{date.today().isoformat()}</lastmod></url>\n</urlset>\n",
         encoding="utf-8",
     )
-    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {URL}sitemap.xml\n", encoding="utf-8")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /midia/\nSitemap: {URL}sitemap.xml\n", encoding="utf-8")
     print(f"site gerado com {len(projetos)} projeto(s)")
 
 
