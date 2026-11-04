@@ -41,7 +41,12 @@ jobs:
         run: |
           mkdir -p _site
           cp -r index.html sitemap.xml robots.txt google*.html favicon.ico assets livros apede lista-de-espera primeiro-obby transcrever _site/
-          if [ -d jogos ]; then cp -r jogos _site/; fi
+          # vitrine desligada (data/projetos.json → vitrine_ativa: false): jogos e capas dos alunos não vão ao ar
+          if [ "$(cat .vitrine-ativa)" = "1" ]; then
+            if [ -d jogos ]; then cp -r jogos _site/; fi
+          else
+            rm -rf _site/assets/projetos
+          fi
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

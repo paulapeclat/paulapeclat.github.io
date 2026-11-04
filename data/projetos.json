@@ -1,4 +1,6 @@
 {
+  "vitrine_ativa": false,
+  "_vitrine_ativa": "false = galeria em construção (nada dos alunos vai ao ar). Mude para true só com a autorização dos pais.",
   "_como_usar": "Cada projeto é um item em 'projetos'. Use só o primeiro nome da criança e peça autorização da família antes de publicar. 'imagem' é um arquivo em assets/projetos/ (print do jogo, nunca foto do rosto). 'link' é onde jogar (Roblox, GDevelop, microStudio, itch.io) e pode ficar vazio.",
   "_exemplo": {
     "titulo": "Nome do jogo",

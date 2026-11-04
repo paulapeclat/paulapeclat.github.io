@@ -17,6 +17,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DADOS = ROOT / "data" / "projetos.json"
+VITRINE_ATIVA = False  # lido de data/projetos.json em main()
+INTRO_VITRINE = '<p class="intro">Jogos criados pelas crianças nas aulas, prontos para jogar no navegador. Cada um aparece só com o primeiro nome ou o apelido de quem criou.</p>'
 URL = "https://paulapeclat.github.io/"
 SITE = "https://paulapeclat.com.br"
 
@@ -142,7 +144,17 @@ def link(url: str, texto: str, classe: str) -> str:
     return f'<a class="{classe}" href="{e(url)}"{extra}>{texto}</a>'
 
 
+EM_CONSTRUCAO = '''<div class="obras" role="status">
+      <span class="obras-ico" aria-hidden="true">🚧</span>
+      <h3>Vitrine em construção</h3>
+      <p>Estamos preparando a galeria com os jogos das turmas. Ela volta ao ar em breve, com a autorização de cada família.</p>
+      <p><a href="https://instagram.com/paulapeclat.oficial" target="_blank" rel="noopener noreferrer">Acompanhe pelo Instagram</a></p>
+    </div>'''
+
+
 def galeria(projetos: list) -> str:
+    if not VITRINE_ATIVA:
+        return EM_CONSTRUCAO
     if not projetos:
         return '''<p class="vazio">A galeria abre com os jogos do próximo Beta Experience, quando as turmas testam os projetos umas das outras. <a href="https://instagram.com/paulapeclat.oficial">Acompanhe pelo Instagram</a> enquanto isso.</p>'''
     itens = []
@@ -272,6 +284,10 @@ def pagina(projetos: list) -> str:
   .projeto .jogar.amigos {{ background: transparent; color: var(--branco); box-shadow: inset 0 0 0 2px var(--linha) }}
   .sr-only {{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }}
   .vazio {{ margin-top: 2rem; max-width: 40em; padding-left: 1.25rem; border-left: 4px solid var(--rosa); font-size: 1.1rem }}
+  .obras {{ border: 2px dashed var(--linha); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; max-width: 560px; margin: 1rem auto 0 }}
+  .obras-ico {{ font-size: 2.5rem; display: block; margin-bottom: .5rem }}
+  .obras h3 {{ margin: 0 0 .5rem }}
+  .obras p {{ margin: .5rem auto 0; max-width: 46ch }}
 
   .lista {{ list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 3rem; margin-top: 2.5rem }}
   .lista h3 {{ font-size: 1.3rem }}
@@ -323,7 +339,7 @@ def pagina(projetos: list) -> str:
 
   <section id="projetos" class="miolo">
     <h2>Projetos das turmas</h2>
-    <p class="intro">Jogos criados pelas crianças nas aulas, prontos para jogar no navegador. Cada um aparece só com o primeiro nome ou o apelido de quem criou.</p>
+    {INTRO_VITRINE if VITRINE_ATIVA else ""}
     {galeria(projetos)}
   </section>
 
@@ -364,7 +380,11 @@ def pagina(projetos: list) -> str:
 
 def main():
     dados = json.loads(DADOS.read_text(encoding="utf-8"))
-    projetos = dados.get("projetos", [])
+    global VITRINE_ATIVA
+    VITRINE_ATIVA = dados.get("vitrine_ativa", True) is True
+    # vitrine desligada: nenhum dado de aluno entra na página (nem no schema/CSP)
+    projetos = dados.get("projetos", []) if VITRINE_ATIVA else []
+    (ROOT / ".vitrine-ativa").write_text("1" if VITRINE_ATIVA else "0")
     (ROOT / "index.html").write_text(pagina(projetos), encoding="utf-8")
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
