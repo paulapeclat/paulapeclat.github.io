@@ -12,3 +12,7 @@ Site em [paulapeclat.github.io](https://paulapeclat.github.io) com os jogos, app
 ## Primeira vez
 
 Em **Settings → Pages**, escolha **Source: GitHub Actions**.
+
+## Direitos autorais
+
+Os projetos pertencem às crianças que os criaram e estão publicados com autorização das famílias. Todos os direitos reservados. Veja [LICENSE.md](LICENSE.md).
